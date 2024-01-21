@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:HaushaltsManager"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
+    <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File"></MenuItem>
             <MenuItem Header="_Open">
@@ -20,21 +20,23 @@
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Button Grid.Column="0" Content="Add Year" Click="CreateYear_Click" Margin="3"/>
+                    <Button Grid.Column="1" Content="Edit Year" Click="EditYear_Click" Margin="3"/>
+                    <Button Grid.Column="2" Content="Delete Year" Click="DeleteYear_Click" Margin="3"/>
+                </Grid>
                 <Grid Grid.Row="1">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                 </Grid>
-                <Grid Grid.Row="0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                </Grid>
             </Grid>
         </Grid>
-    </Grid>
+    </DockPanel>
 </Window>

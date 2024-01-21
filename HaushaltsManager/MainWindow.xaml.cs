@@ -20,5 +20,10 @@ namespace HaushaltsManager
         {
             InitializeComponent();
         }
+
+        private void CreateYear_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
