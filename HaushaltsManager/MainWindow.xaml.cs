@@ -8,6 +8,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.IO;
 
 namespace HaushaltsManager
 {
@@ -16,14 +17,26 @@ namespace HaushaltsManager
     /// </summary>
     public partial class MainWindow : Window
     {
+        DBCreator.DBCreator creator;
+        const string filename = "Years";
+        const string lastFilename = "DBFiles";
+        string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+        const string filetype = ".db";
+
+        const string 
+
         public MainWindow()
         {
             InitializeComponent();
+            creator = new("Years","DbFiles",string.Empty,".db");
+            creator.Constring = System.IO.Path.Combine(path,lastFilename,filename,filetype);
+            creator.CreateDBFile();
         }
 
         private void CreateYear_Click(object sender, RoutedEventArgs e)
         {
 
+            creator.CreateTable(creator.YearSQL="");
         }
     }
 }

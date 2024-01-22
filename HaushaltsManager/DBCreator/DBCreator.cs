@@ -1,11 +1,24 @@
 ﻿using Dapper;
 using System.Data.SQLite;
+using System.Globalization;
 using System.Windows;
 
 namespace HaushaltsManager.DBCreator
 {
     public class DBCreator
     {
+        private string _yearSQL = string.Empty;
+        public string YearSQL { get { return _yearSQL; } set {
+                _yearSQL = $"Create Table if not exists {value} " +
+                    $"(Id Int AUTO_INCREMENT, " +
+                    $"Name varchar(255), " +
+                    $"Beschreibung varchar(255), " +
+                    $"Datum datetime, " +
+                    $"Zeit datetime, " +
+                    $"KategorieId Int, " +
+                    $"Betrag float, " +
+                    $"Primary Key(Id))";
+            } }
         public DBCreator(string Filename, string Lastfoldername, string Path, string Dateiendung)
         {
             _filename = Filename + "." + Dateiendung;
