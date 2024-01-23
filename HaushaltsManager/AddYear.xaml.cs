@@ -19,14 +19,17 @@ namespace HaushaltsManager
     /// </summary>
     public partial class AddYear : Window
     {
+        DBCreator.DBCreator dbcreator;
         public AddYear()
         {
             InitializeComponent();
+            dbcreator = DBCreator.DBCreator.GetInstance("Years", "DbFiles", string.Empty, ".db");
         }
 
         private void Save_Click(object sender, RoutedEventArgs e)
         {
-            
+            dbcreator.CreateTable(Datumsauswahl.SelectedDate.Value.Year.ToString());
+            System.Windows.Application.Current.Shutdown();
         }
     }
 }

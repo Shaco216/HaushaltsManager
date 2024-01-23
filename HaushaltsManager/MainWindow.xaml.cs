@@ -23,12 +23,10 @@ namespace HaushaltsManager
         string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
         const string filetype = ".db";
 
-        const string 
-
         public MainWindow()
         {
             InitializeComponent();
-            creator = new("Years","DbFiles",string.Empty,".db");
+            creator = DBCreator.DBCreator.GetInstance("Years","DbFiles",string.Empty,".db");
             creator.Constring = System.IO.Path.Combine(path,lastFilename,filename,filetype);
             creator.CreateDBFile();
         }

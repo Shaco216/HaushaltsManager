@@ -28,7 +28,7 @@
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
                 <Label Grid.Row="0" Content="Year:" x:Name="YearSelector"/>
-                <DatePicker Grid.Row="1"/>
+                <DatePicker Grid.Row="1" x:Name="Datumsauswahl"/>
             </Grid>
             <Grid Grid.Column="3" Grid.Row="4">
                 <Grid.RowDefinitions>

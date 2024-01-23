@@ -11,7 +11,7 @@
             <MenuItem Header="_File"></MenuItem>
             <MenuItem Header="_Open">
                 <!--<MenuItem Header="_PasswordCreator" Click="PasswordCreator_Click"></MenuItem>-->
-                <MenuItem Header="_item" Click="Item_Click"></MenuItem>
+                <MenuItem Header="_item"></MenuItem>
             </MenuItem>
         </Menu>
         <Grid>
