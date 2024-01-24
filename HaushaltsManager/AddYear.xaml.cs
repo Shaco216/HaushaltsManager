@@ -36,6 +36,7 @@ namespace HaushaltsManager
             System.Windows.Application.Current.Shutdown();
         }
 
-        public int SelectedYear { get { return selectedYear; } set { selectedYear = value; } }
+        public bool SaveEnabled { get; set; } = false;
+        public int SelectedYear { get { return selectedYear; } set { selectedYear = value; if (selectedYear != 0) SaveButton.IsEnabled = true; } }
     }
 }

@@ -35,7 +35,7 @@
                     <RowDefinition/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-            <Button Grid.Row="0" Margin="3" Content="Save" Click="Save_Click"/>
+                <Button Grid.Row="0" x:Name="SaveButton" Margin="3" Content="Save" Click="Save_Click" IsEnabled="False" />
             </Grid>
         </Grid>
     </Grid>
