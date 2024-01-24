@@ -21,20 +21,31 @@ namespace HaushaltsManager
         const string filename = "Years";
         const string lastFilename = "DBFiles";
         string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-        const string filetype = ".db";
+        const string filetype = "db";
 
         public MainWindow()
         {
             InitializeComponent();
-            creator = DBCreator.DBCreator.GetInstance("Years","DbFiles",string.Empty,".db");
-            creator.Constring = System.IO.Path.Combine(path,lastFilename,filename,filetype);
+            creator = DBCreator.DBCreator.GetInstance(filename,lastFilename,string.Empty,filetype);
+            creator.Constring = System.IO.Path.Combine(path,lastFilename,filename+"."+filetype);
             creator.CreateDBFile();
         }
 
         private void CreateYear_Click(object sender, RoutedEventArgs e)
         {
+            AddYear addYear = new AddYear();
+            addYear.Title = "Neues Jahr hinzufügen";
+            addYear.ShowDialog();
+        }
 
-            creator.CreateTable(creator.YearSQL="");
+        private void EditYear_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void DeleteYear_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

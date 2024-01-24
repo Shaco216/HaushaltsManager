@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HaushaltsManager.DBCreator;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,6 +21,7 @@ namespace HaushaltsManager
     public partial class AddYear : Window
     {
         DBCreator.DBCreator dbcreator;
+        int selectedYear;
         public AddYear()
         {
             InitializeComponent();
@@ -28,8 +30,12 @@ namespace HaushaltsManager
 
         private void Save_Click(object sender, RoutedEventArgs e)
         {
-            dbcreator.CreateTable(Datumsauswahl.SelectedDate.Value.Year.ToString());
+            selectedYear = Datumsauswahl.SelectedDate.Value.Year;
+            dbcreator.Constring = ConstringAllocator.Years;
+            dbcreator.CreateTable(dbcreator.YearSQL = Datumsauswahl.SelectedDate.Value.Year.ToString());
             System.Windows.Application.Current.Shutdown();
         }
+
+        public int SelectedYear { get { return selectedYear; } set { selectedYear = value; } }
     }
 }

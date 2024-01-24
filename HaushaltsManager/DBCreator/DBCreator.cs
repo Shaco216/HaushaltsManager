@@ -9,8 +9,8 @@ namespace HaushaltsManager.DBCreator
     {
         private string _yearSQL = string.Empty;
         static private string _path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-        static private string _filename = "PinguPasswortDB.db";
-        static private string _lastFoldername = "PinguPasswortGenerator";
+        static private string _filename = string.Empty;
+        static private string _lastFoldername = string.Empty;
         static bool localInstance = false;
         private string? _constring;
         static private DBCreator dbCreator;
@@ -76,7 +76,7 @@ namespace HaushaltsManager.DBCreator
         public string? Constring
         {
             get { return _constring; }
-            set { _constring = $"Data Source = {value}"; }
+            set { _constring = @$"Data Source = {value}"; }
         }
 
         private IEnumerable<T> DoQueryCommand<T>(string cmd)
