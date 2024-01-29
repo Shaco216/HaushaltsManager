@@ -35,6 +35,8 @@ namespace HaushaltsManager
         {
             AddYear addYear = new AddYear();
             addYear.Title = "Neues Jahr hinzufügen";
+            addYear.Width = 300;
+            addYear.Height = 250;
             addYear.ShowDialog();
         }
 
