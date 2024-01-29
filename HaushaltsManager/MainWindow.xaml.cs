@@ -9,6 +9,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.IO;
+using System.Windows.Controls.Primitives;
+using System.Xml.Linq;
+using HaushaltsManager.Repository;
 
 namespace HaushaltsManager
 {
@@ -22,6 +25,7 @@ namespace HaushaltsManager
         const string lastFilename = "DBFiles";
         string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
         const string filetype = "db";
+        BasicRepository rep;
 
         public MainWindow()
         {
@@ -29,6 +33,7 @@ namespace HaushaltsManager
             creator = DBCreator.DBCreator.GetInstance(filename,lastFilename,string.Empty,filetype);
             creator.Constring = System.IO.Path.Combine(path,lastFilename,filename+"."+filetype);
             creator.CreateDBFile();
+            rep = new(creator.Constring);
         }
 
         private void CreateYear_Click(object sender, RoutedEventArgs e)
@@ -49,6 +54,10 @@ namespace HaushaltsManager
         private void DeleteYear_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+        private void UpdateItemSource()
+        {
+            ClickedYear.ItemsSource = SELECT name FROM sqlite_master WHERE type = "table";
         }
     }
 }

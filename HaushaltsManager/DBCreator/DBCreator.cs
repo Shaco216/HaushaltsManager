@@ -87,7 +87,7 @@ namespace HaushaltsManager.DBCreator
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message + "\n\nMöglicherweise ist das Constringproperty noch nicht gesetzt");
+                MessageBox.Show(ex.Message);
                 return new List<T>();
             }
         }
