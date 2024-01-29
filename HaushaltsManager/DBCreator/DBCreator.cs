@@ -7,15 +7,7 @@ namespace HaushaltsManager.DBCreator
 {
     public class DBCreator
     {
-        private string _yearSQL = string.Empty;
-        static private string _path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-        static private string _filename = string.Empty;
-        static private string _lastFoldername = string.Empty;
-        static bool localInstance = false;
-        private string? _constring;
-        static private DBCreator dbCreator;
-        public string YearSQL { get { return _yearSQL; } set {
-                _yearSQL = $"Create Table if not exists {value} " +
+        private string _yearSQL = $"Create Table 'nnnn' " +
                     $"(Id Int AUTO_INCREMENT, " +
                     $"Name varchar(255), " +
                     $"Beschreibung varchar(255), " +
@@ -24,7 +16,14 @@ namespace HaushaltsManager.DBCreator
                     $"KategorieId Int, " +
                     $"Betrag float, " +
                     $"Primary Key(Id))";
-            } }
+
+        static private string _path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+        static private string _filename = string.Empty;
+        static private string _lastFoldername = string.Empty;
+        static bool localInstance = false;
+        private string? _constring;
+        static private DBCreator dbCreator;
+        public string YearSQL { get { return _yearSQL; } set { _yearSQL = value; } }
         private DBCreator(string Filename, string Lastfoldername, string Path, string Dateiendung)
         {
             _filename = Filename + "." + Dateiendung;
@@ -37,14 +36,11 @@ namespace HaushaltsManager.DBCreator
 
         static public DBCreator GetInstance(string Filename, string Lastfoldername, string Path, string Dateiendung)
         {
-            if(dbCreator == null)
+            if (dbCreator == null)
             {
-                return new DBCreator(Filename, Lastfoldername, Path, Dateiendung);
+                dbCreator = new DBCreator(Filename, Lastfoldername, Path, Dateiendung);
             }
-            else
-            {
-                return dbCreator;
-            }
+            return dbCreator;
         }
         public void CreateDBFile()
         {
@@ -76,7 +72,7 @@ namespace HaushaltsManager.DBCreator
         public string? Constring
         {
             get { return _constring; }
-            set { _constring = @$"Data Source = {value}"; }
+            set { _constring = value; }
         }
 
         private IEnumerable<T> DoQueryCommand<T>(string cmd)
@@ -109,7 +105,7 @@ namespace HaushaltsManager.DBCreator
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message + "\n\nMöglicherweise ist das Constringproperty noch nicht gesetzt");
+                MessageBox.Show(ex.Message);
                 return default;
             }
         }

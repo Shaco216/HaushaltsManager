@@ -30,10 +30,11 @@ namespace HaushaltsManager
 
         private void Save_Click(object sender, RoutedEventArgs e)
         {
-            selectedYear = Datumsauswahl.SelectedDate.Value.Year;
+            selectedYear = Convert.ToInt32(Yearselector.Text);
             dbcreator.Constring = ConstringAllocator.Years;
-            dbcreator.CreateTable(dbcreator.YearSQL = Datumsauswahl.SelectedDate.Value.Year.ToString());
-            System.Windows.Application.Current.Shutdown();
+            dbcreator.YearSQL = dbcreator.YearSQL.Replace("nnnn",Yearselector.Text);
+            dbcreator.CreateTable(dbcreator.YearSQL);
+            this.Close();
         }
 
         public bool SaveEnabled { get; set; } = false;
