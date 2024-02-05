@@ -21,8 +21,8 @@ namespace HaushaltsManager
     public partial class MainWindow : Window
     {
         DBCreator.DBCreator creator;
-        const string filename = "Years";
-        const string lastFilename = "DBFiles";
+        const string filename = @"\Years";
+        const string lastFilename = @"\DBFiles";
         string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
         const string filetype = "db";
         BasicRepository rep;
@@ -31,9 +31,10 @@ namespace HaushaltsManager
         {
             InitializeComponent();
             creator = DBCreator.DBCreator.GetInstance(filename,lastFilename,string.Empty,filetype);
-            creator.Constring = System.IO.Path.Combine(path,lastFilename,filename+"."+filetype);
+            creator.Constring = path + lastFilename+filename+"."+filetype;
             creator.CreateDBFile();
             rep = new(creator.Constring);
+            UpdateItemSource();
         }
 
         private void CreateYear_Click(object sender, RoutedEventArgs e)
@@ -44,6 +45,7 @@ namespace HaushaltsManager
             addYear.Height = 200;
             addYear.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             addYear.ShowDialog();
+            UpdateItemSource();
         }
 
         private void EditYear_Click(object sender, RoutedEventArgs e)
@@ -57,7 +59,7 @@ namespace HaushaltsManager
         }
         private void UpdateItemSource()
         {
-            ClickedYear.ItemsSource = SELECT name FROM sqlite_master WHERE type = "table";
+            ClickedYear.ItemsSource = rep.DoQueryCommand<string>(SQLStatementProvider.GatherTableNames);
         }
     }
 }
