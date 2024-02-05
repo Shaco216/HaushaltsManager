@@ -1,4 +1,5 @@
 ﻿using HaushaltsManager.DBCreator;
+using HaushaltsManager.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,24 +21,17 @@ namespace HaushaltsManager
     /// </summary>
     public partial class AddYear : Window
     {
-        DBCreator.DBCreator dbcreator;
-        int selectedYear;
+        BasicRepository repo;
         public AddYear()
         {
             InitializeComponent();
-            dbcreator = DBCreator.DBCreator.GetInstance("Years", "DbFiles", string.Empty, ".db");
+            repo = new(ConstringAllocator.Years); 
         }
 
         private void Save_Click(object sender, RoutedEventArgs e)
         {
-            selectedYear = Convert.ToInt32(Yearselector.Text);
-            dbcreator.Constring = ConstringAllocator.Years;
-            dbcreator.YearSQL = dbcreator.YearSQL.Replace("nnnn",Yearselector.Text);
-            dbcreator.CreateTable(dbcreator.YearSQL);
+            repo.DoNonQueryCommand(SQLStatementProvider.InsertYear.Replace("@year", Yearselector.Text));
             this.Close();
         }
-
-        public bool SaveEnabled { get; set; } = false;
-        public int SelectedYear { get { return selectedYear; } set { selectedYear = value; if (selectedYear != 0) SaveButton.IsEnabled = true; } }
     }
 }

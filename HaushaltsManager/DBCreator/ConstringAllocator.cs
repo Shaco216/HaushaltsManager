@@ -2,6 +2,6 @@
 
 public static class ConstringAllocator
 {
-    const string _years = @"Data Source = C:\\Users\User\Documents\DbFiles\Years.db";
+    private static string _years = @$"Data Source = {Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}\DbFiles\Years.db".Replace(@"\",@"/");
     public static string Years { get { return _years; } }
 }

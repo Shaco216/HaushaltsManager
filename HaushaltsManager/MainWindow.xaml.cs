@@ -12,6 +12,8 @@ using System.IO;
 using System.Windows.Controls.Primitives;
 using System.Xml.Linq;
 using HaushaltsManager.Repository;
+using HaushaltsManager.DBCreator;
+using HaushaltsManager.Model;
 
 namespace HaushaltsManager
 {
@@ -23,17 +25,16 @@ namespace HaushaltsManager
         DBCreator.DBCreator creator;
         const string filename = @"\Years";
         const string lastFilename = @"\DBFiles";
-        string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
         const string filetype = "db";
         BasicRepository rep;
-
         public MainWindow()
         {
             InitializeComponent();
             creator = DBCreator.DBCreator.GetInstance(filename,lastFilename,string.Empty,filetype);
-            creator.Constring = path + lastFilename+filename+"."+filetype;
+            creator.Constring = ConstringAllocator.Years;
             creator.CreateDBFile();
             rep = new(creator.Constring);
+            creator.CreateTable(SQLStatementProvider.CreateYearsTable);
             UpdateItemSource();
         }
 
@@ -59,7 +60,7 @@ namespace HaushaltsManager
         }
         private void UpdateItemSource()
         {
-            ClickedYear.ItemsSource = rep.DoQueryCommand<string>(SQLStatementProvider.GatherTableNames);
+            LocatedYears.ItemsSource = rep.DoQueryCommand<Year>(SQLStatementProvider.GatherYears);
         }
     }
 }

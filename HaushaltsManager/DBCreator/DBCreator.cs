@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using HaushaltsManager.Repository;
 using System.Data.SQLite;
 using System.Globalization;
 using System.Windows;
@@ -7,15 +8,16 @@ namespace HaushaltsManager.DBCreator
 {
     public class DBCreator
     {
-        private string _yearSQL = $"Create Table 'nnnn' " +
-                    $"(Id Int AUTO_INCREMENT, " +
-                    $"Name varchar(255), " +
-                    $"Beschreibung varchar(255), " +
-                    $"Datum datetime, " +
-                    $"Zeit datetime, " +
-                    $"KategorieId Int, " +
-                    $"Betrag float, " +
-                    $"Primary Key(Id))";
+        private string _yearSQL = SQLStatementProvider.CreateYearsTable;
+        //private string _yearSQL = $"Create Table 'nnnn' " +
+        //            $"(Id Int AUTO_INCREMENT, " +
+        //            $"Name varchar(255), " +
+        //            $"Beschreibung varchar(255), " +
+        //            $"Datum datetime, " +
+        //            $"Zeit datetime, " +
+        //            $"KategorieId Int, " +
+        //            $"Betrag float, " +
+        //            $"Primary Key(Id))";
 
         static private string _path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
         static private string _filename = string.Empty;
