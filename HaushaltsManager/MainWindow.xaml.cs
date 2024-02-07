@@ -60,7 +60,8 @@ namespace HaushaltsManager
         }
         private void UpdateItemSource()
         {
-            LocatedYears.ItemsSource = rep.DoQueryCommand<Year>(SQLStatementProvider.GatherYears);
+            var years = rep.DoQueryCommand<Year>(SQLStatementProvider.GatherYears);
+            LocatedYears.ItemsSource = years;
         }
     }
 }

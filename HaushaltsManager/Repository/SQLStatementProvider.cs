@@ -13,12 +13,12 @@ public static class SQLStatementProvider
                     $"KategorieId Int, " +
                     $"Betrag float, " +
                     $"Primary Key(Id)," +
-                    $"Foreign Key(Year))";
+                    $"Foreign Key(Jahr) References Years(Jahr))";
 
-    public static string CreateYearsTable = "Create Table if not exists 'Years' (Year Int Not Null, Primary Key(Year));";
+    public static string CreateYearsTable = "Create Table if not exists 'Years' (Jahr int Not Null, Primary Key(Jahr));";
 
-    public static string GatherYears = "Select Year from Years;";
-    public static string InsertYear = "Insert Into Years (Year) Values (@year)";
+    public static string GatherYears = "Select * from Years;";
+    public static string InsertYear = "Insert Into Years (Jahr) Values (@Year)";
 
     public static string CreateArchivedBelegeTable = @"Create Table if not exists 'ArchivedBelege' (Id BigInt, 
                                                     Jahr Int, Name varchar(255), Beschreibung varchar(255), Datum datetime,

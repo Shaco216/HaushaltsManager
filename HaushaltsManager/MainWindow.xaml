@@ -35,7 +35,7 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="5*"/>
                     </Grid.ColumnDefinitions>
-                    <DataGrid Grid.Column="0" x:Name="LocatedYears" AutoGenerateColumns="True">
+                    <DataGrid Grid.Column="0" x:Name="LocatedYears" AutoGenerateColumns="True" CanUserAddRows="False" CanUserDeleteRows="False" IsReadOnly="True">
                     </DataGrid>
                     <DataGrid Grid.Column="1" x:Name="ClickedYear" AutoGenerateColumns="True">
                     </DataGrid>

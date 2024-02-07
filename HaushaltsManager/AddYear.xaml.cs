@@ -30,7 +30,7 @@ namespace HaushaltsManager
 
         private void Save_Click(object sender, RoutedEventArgs e)
         {
-            repo.DoNonQueryCommand(SQLStatementProvider.InsertYear.Replace("@year", Yearselector.Text));
+            repo.DoNonQueryCommand(SQLStatementProvider.InsertYear.Replace("@Year", Yearselector.Text));
             this.Close();
         }
     }
