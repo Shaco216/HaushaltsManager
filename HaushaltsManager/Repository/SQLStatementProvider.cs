@@ -7,7 +7,7 @@ public static class SQLStatementProvider
                     $"(Id BigInt AUTO_INCREMENT, " +
                     $"Jahr Int, " +
                     $"Name varchar(255), " +
-                    $"Beschreibung varchar(255), " +
+                    $"Beschreibung varchar(2000), " +
                     $"Datum datetime, " +
                     $"KategorieId Int, " +
                     $"Betrag float, " +
@@ -27,7 +27,7 @@ public static class SQLStatementProvider
                                                     Jahr Int, Name varchar(255), Beschreibung varchar(255), Datum datetime,
                                                     Zeit datetime, KategorieId Int, Betrag float, Primary Key(Id,Jahr));";
 
-    public static string CreateKategorieTable = @"Create Table if not exists 'Kategorien' (Id int not null,
-                                                  Name varchar(255) not null, Primary Key(Id));";
-
+    public static string CreateKategorieTable = @"Create Table if not exists 'Kategorien' (Id int AUTO_INCREMENT,
+                                                  Name varchar(255) not null, Beschreibung varchar(2000), Primary Key(Id));";
+    public static string InsertKategorie = "Insert Into Kategorien (Name,Beschreibung) Values (@KategorieName,@Beschreibung);";
 }

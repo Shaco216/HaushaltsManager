@@ -37,6 +37,7 @@ namespace HaushaltsManager
             creator.CreateTable(SQLStatementProvider.CreateYearsTable);
             creator.CreateTable(SQLStatementProvider.CreateBelegTable);
             creator.CreateTable(SQLStatementProvider.CreateArchivedBelegeTable);
+            creator.CreateTable(SQLStatementProvider.CreateKategorieTable);
             UpdateItemSource();
         }
 
@@ -88,8 +89,8 @@ namespace HaushaltsManager
                 Year selectedYear = LocatedYears.SelectedItem as Year;
                 AddBeleg addBeleg = new AddBeleg(rep, selectedYear.Jahr.ToString());
                 addBeleg.Title = "Beleg hinzufügen";
-                addBeleg.Width = 300;
-                addBeleg.Height = 200;
+                addBeleg.Width = 500;
+                addBeleg.Height = 300;
                 addBeleg.ShowDialog();
             }
 
@@ -103,6 +104,12 @@ namespace HaushaltsManager
         private void DeleteBeleg_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void _KategorieOptions_Click(object sender, RoutedEventArgs e)
+        {
+            KategorieOptionsWindow kategorieWindow = new(rep);
+            kategorieWindow.ShowDialog();
         }
     }
 }

@@ -10,8 +10,7 @@
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File"></MenuItem>
             <MenuItem Header="_Open">
-                <!--<MenuItem Header="_PasswordCreator" Click="PasswordCreator_Click"></MenuItem>-->
-                <MenuItem Header="_item"></MenuItem>
+                <MenuItem Header="_KategorieOptions" Click="_KategorieOptions_Click"></MenuItem>
             </MenuItem>
         </Menu>
         <Grid>
