@@ -35,6 +35,8 @@ namespace HaushaltsManager
             creator.CreateDBFile();
             rep = new(creator.Constring);
             creator.CreateTable(SQLStatementProvider.CreateYearsTable);
+            creator.CreateTable(SQLStatementProvider.CreateBelegTable);
+            creator.CreateTable(SQLStatementProvider.CreateArchivedBelegeTable);
             UpdateItemSource();
         }
 
@@ -53,7 +55,8 @@ namespace HaushaltsManager
         {
             if (LocatedYears.SelectedItem is not null)
             {
-                UpdateYear updateYear = new UpdateYear(rep, ((Year)LocatedYears.SelectedItem).Jahr.ToString());
+                Year selectedYear = (Year)LocatedYears.SelectedItem;
+                UpdateYear updateYear = new UpdateYear(rep, selectedYear.Jahr.ToString());
                 updateYear.Title = $"Update {LocatedYears.SelectedItem}";
                 updateYear.Width = 300;
                 updateYear.Height = 200;
@@ -65,11 +68,41 @@ namespace HaushaltsManager
 
         private void DeleteYear_Click(object sender, RoutedEventArgs e)
         {
+            if (LocatedYears.SelectedItem is not null)
+            {
+                Year selectedYear = (Year)LocatedYears.SelectedItem;
+                rep.DoNonQueryCommand(SQLStatementProvider.DeleteYear.Replace("@Year", selectedYear.Jahr.ToString()));
+                UpdateItemSource();
+            }
         }
         private void UpdateItemSource()
         {
             var years = rep.DoQueryCommand<Year>(SQLStatementProvider.GatherYears);
             LocatedYears.ItemsSource = years;
+        }
+
+        private void CreateBeleg_Click(object sender, RoutedEventArgs e)
+        {
+            if (LocatedYears.SelectedItem is not null)
+            {
+                Year selectedYear = LocatedYears.SelectedItem as Year;
+                AddBeleg addBeleg = new AddBeleg(rep, selectedYear.Jahr.ToString());
+                addBeleg.Title = "Beleg hinzufügen";
+                addBeleg.Width = 300;
+                addBeleg.Height = 200;
+                addBeleg.ShowDialog();
+            }
+
+        }
+
+        private void UpdateBeleg_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void DeleteBeleg_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

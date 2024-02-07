@@ -25,15 +25,25 @@
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
                     </Grid.ColumnDefinitions>
                     <Button Grid.Column="0" Content="Add Year" Click="CreateYear_Click" Margin="3"/>
                     <Button Grid.Column="1" Content="Edit Year" Click="EditYear_Click" Margin="3"/>
                     <Button Grid.Column="2" Content="Delete Year" Click="DeleteYear_Click" Margin="3"/>
+
+                    <Rectangle Fill="LightGray" Width="3" Grid.Column="3"/>
+
+                    <Button Grid.Column="4" Content="Add Beleg" Click="CreateBeleg_Click" Margin="3"/>
+                    <Button Grid.Column="5" Content="Update Beleg" Click="UpdateBeleg_Click" Margin="3"/>
+                    <Button Grid.Column="6" Content="Delete Beleg" Click="DeleteBeleg_Click" Margin="3"/>
                 </Grid>
                 <Grid Grid.Row="1">
                     <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="5*"/>
                     </Grid.ColumnDefinitions>
                     <DataGrid Grid.Column="0" x:Name="LocatedYears" AutoGenerateColumns="True" CanUserAddRows="False" CanUserDeleteRows="False" IsReadOnly="True">
                     </DataGrid>
