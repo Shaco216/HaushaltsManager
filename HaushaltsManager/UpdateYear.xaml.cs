@@ -1,5 +1,4 @@
-﻿using HaushaltsManager.DBCreator;
-using HaushaltsManager.Repository;
+﻿using HaushaltsManager.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,26 +16,31 @@ using System.Windows.Shapes;
 namespace HaushaltsManager
 {
     /// <summary>
-    /// Interaktionslogik für AddYear.xaml
+    /// Interaktionslogik für UpdateYear.xaml
     /// </summary>
-    public partial class AddYear : Window
+    public partial class UpdateYear : Window
     {
-        BasicRepository repo;
-        public AddYear()
+        private readonly BasicRepository repo;
+        private readonly string previousyear;
+
+        public UpdateYear()
         {
             InitializeComponent();
-            repo = new(ConstringAllocator.Years); 
         }
-
-        public AddYear(BasicRepository rep)
+        public UpdateYear(BasicRepository rep, string prevYear)
         {
             InitializeComponent();
             repo = rep;
+            previousyear = prevYear;
+            PrevYear.Text = prevYear;
         }
 
         private void Save_Click(object sender, RoutedEventArgs e)
         {
-            repo.DoNonQueryCommand(SQLStatementProvider.InsertYear.Replace("@Year", Yearselector.Text));
+            string sqlcmd = SQLStatementProvider.UpdateYear
+                    .Replace("@PrevYear", previousyear)
+                    .Replace("@Year", Yearselector.Text);
+            repo.DoNonQueryCommand( sqlcmd );
             this.Close();
         }
     }

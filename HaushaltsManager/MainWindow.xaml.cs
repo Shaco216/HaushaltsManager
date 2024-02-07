@@ -30,7 +30,7 @@ namespace HaushaltsManager
         public MainWindow()
         {
             InitializeComponent();
-            creator = DBCreator.DBCreator.GetInstance(filename,lastFilename,string.Empty,filetype);
+            creator = DBCreator.DBCreator.GetInstance(filename, lastFilename, string.Empty, filetype);
             creator.Constring = ConstringAllocator.Years;
             creator.CreateDBFile();
             rep = new(creator.Constring);
@@ -40,7 +40,7 @@ namespace HaushaltsManager
 
         private void CreateYear_Click(object sender, RoutedEventArgs e)
         {
-            AddYear addYear = new AddYear();
+            AddYear addYear = new AddYear(rep);
             addYear.Title = "Neues Jahr hinzufügen";
             addYear.Width = 300;
             addYear.Height = 200;
@@ -51,12 +51,20 @@ namespace HaushaltsManager
 
         private void EditYear_Click(object sender, RoutedEventArgs e)
         {
-
+            if (LocatedYears.SelectedItem is not null)
+            {
+                UpdateYear updateYear = new UpdateYear(rep, ((Year)LocatedYears.SelectedItem).Jahr.ToString());
+                updateYear.Title = $"Update {LocatedYears.SelectedItem}";
+                updateYear.Width = 300;
+                updateYear.Height = 200;
+                updateYear.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+                updateYear.ShowDialog();
+            }
+            UpdateItemSource();
         }
 
         private void DeleteYear_Click(object sender, RoutedEventArgs e)
         {
-
         }
         private void UpdateItemSource()
         {
