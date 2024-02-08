@@ -16,9 +16,11 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto"/>
                     <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
                 </Grid.ColumnDefinitions>
-                <Button Grid.Column="0" Content="Save Kategories" Click="SaveKategories_Click" Margin="3"/>
-                <Button Grid.Column="1" Content="Cancel" Click="CancelKategories_Click" Margin="3"/>
+                <Button Grid.Column="0" Content="Insert Kategories" Click="InsertKategories_Click" Margin="3"/>
+                <Button Grid.Column="1" Content="Update Kategorie" Click="UpdateKategories_Click" Margin="3"/>
+                <Button Grid.Column="2" Content="Delete Kategorie" Click="DeleteKategories_Click" Margin="3"/>
             </Grid>
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>

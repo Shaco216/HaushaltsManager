@@ -30,15 +30,25 @@ namespace HaushaltsManager
         {
             InitializeComponent();
             rep = repo;
-            LocatedKategories = rep.DoQueryCommand<Kategorie>(SQLStatementProvider.)
+            LocatedKategories.ItemsSource = rep.DoQueryCommand<Kategorie>(SQLStatementProvider.GatherKategories);
         }
 
-        private void CancelKategories_Click(object sender, RoutedEventArgs e)
+        private void DeleteKategories_Click(object sender, RoutedEventArgs e)
         {
+            Kategorie selectedKategorie = (Kategorie)LocatedKategories.SelectedItem;
 
+            rep.DoNonQueryCommand(SQLStatementProvider.InsertKategorie
+                .Replace("@Beschreibung",selectedKategorie.Beschreibung)
+                .Replace("@KategorieName",selectedKategorie.Name));
         }
 
-        private void SaveKategories_Click(object sender, RoutedEventArgs e)
+        private void UpdateKategories_Click(object sender, RoutedEventArgs e)
+        {
+            Kategorie selectedKategorie = (Kategorie)LocatedKategories.SelectedItem;
+            rep.DoNonQueryCommand(SQLStatementProvider.UpdateKategorie.Replace("@"))
+        }
+
+        private void InsertKategories_Click(object sender, RoutedEventArgs e)
         {
 
         }
