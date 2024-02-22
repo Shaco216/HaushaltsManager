@@ -14,12 +14,13 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
         <Label Content="Kategoriename:" Grid.Row="0" Grid.Column="0" />
-        <TextBox x:Name="KategorieName" Grid.Row="0" Grid.Column="0" />
+        <TextBox x:Name="KategorieName" Grid.Row="1" Grid.Column="0" />
         <Label Content="Kategoriebeschreibung" Grid.Row="0" Grid.Column="1"/>
-        <TextBox x:Name="KategorieBeschreibung" Grid.Row="0" Grid.Column="1" />
-        <Button Content="Save" Click="InsertKategorie_Click" Grid.Row="1" Grid.Column="0" />
-        <Button Content="Cancel" Click="Cancel_Click" Grid.Row="1" Grid.Column="1"/>
+        <TextBox x:Name="KategorieBeschreibung" Grid.Row="1" Grid.Column="1" />
+        <Button Content="Save" Click="InsertKategorie_Click" Grid.Row="2" Grid.Column="0" />
+        <Button Content="Cancel" Click="Cancel_Click" Grid.Row="2" Grid.Column="1"/>
     </Grid>
 </Window>

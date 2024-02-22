@@ -26,7 +26,7 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto"/>
                 </Grid.ColumnDefinitions>
-                <DataGrid Grid.Column="0" x:Name="LocatedKategories" AutoGenerateColumns="True" CanUserAddRows="False" CanUserDeleteRows="False" IsReadOnly="True">
+                <DataGrid Grid.Column="0" x:Name="LocatedKategories" AutoGenerateColumns="True" CanUserAddRows="False" CanUserDeleteRows="False" IsReadOnly="False">
                 </DataGrid>
             </Grid>
         </Grid>

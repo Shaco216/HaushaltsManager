@@ -30,16 +30,16 @@ namespace HaushaltsManager
         {
             InitializeComponent();
             rep = repo;
-            LocatedKategories.ItemsSource = rep.DoQueryCommand<Kategorie>(SQLStatementProvider.GatherKategories);
+            LoadKategories();
         }
 
         private void DeleteKategories_Click(object sender, RoutedEventArgs e)
         {
             Kategorie selectedKategorie = (Kategorie)LocatedKategories.SelectedItem;
 
-            rep.DoNonQueryCommand(SQLStatementProvider.InsertKategorie
-                .Replace("@Beschreibung", selectedKategorie.Beschreibung)
-                .Replace("@KategorieName", selectedKategorie.Name));
+            rep.DoNonQueryCommand(SQLStatementProvider.DeleteKategorie
+                .Replace("@Id", selectedKategorie.Id.ToString()));
+            LoadKategories();
         }
 
         private void UpdateKategories_Click(object sender, RoutedEventArgs e)
@@ -49,6 +49,7 @@ namespace HaushaltsManager
                 .Replace("@Id", selectedKategorie.Id.ToString())
                 .Replace("@KategorieName", selectedKategorie.Name)
                 .Replace("@Beschreibung", selectedKategorie.Beschreibung));
+            LoadKategories();
         }
 
         private void InsertKategories_Click(object sender, RoutedEventArgs e)
@@ -59,10 +60,16 @@ namespace HaushaltsManager
             bool lockatcount = ((IEnumerable<Kategorie>)LocatedKategories.ItemsSource).Count() > 1;
             if (lockat && lockatsource && lockatcount)
             {
-                highestId = ((IEnumerable<Kategorie>)LocatedKategories.ItemsSource).Max(x => x.Id);
+                var kategories = ((IEnumerable<Kategorie>)LocatedKategories.ItemsSource);
+                highestId = kategories.Max(x => x.Id);
             }
-            AddKategorie addKategorie = new AddKategorie(rep, highestId);
+            AddKategorie addKategorie = new AddKategorie(rep, highestId, this);
             addKategorie.Show();
+        }
+
+        public void LoadKategories()
+        {
+            LocatedKategories.ItemsSource = rep.DoQueryCommand<Kategorie>(SQLStatementProvider.GatherKategories);
         }
     }
 }
