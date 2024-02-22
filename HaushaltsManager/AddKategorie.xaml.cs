@@ -1,4 +1,7 @@
-﻿using System;
+﻿using HaushaltsManager.DBCreator;
+using HaushaltsManager.Model;
+using HaushaltsManager.Repository;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,9 +22,29 @@ namespace HaushaltsManager
     /// </summary>
     public partial class AddKategorie : Window
     {
-        public AddKategorie()
+        BasicRepository _repository;
+        int _highestId;
+        public AddKategorie(BasicRepository repo, int highestId)
         {
             InitializeComponent();
+            _repository = repo;
+            _highestId = highestId;
+        }
+
+        private void InsertKategorie_Click(object sender, RoutedEventArgs e)
+        {
+            Kategorie kategorie = new Kategorie()
+            {
+                Name = KategorieName.Text,
+                Beschreibung = KategorieBeschreibung.Text
+            };
+            _repository.DoNonQueryCommand(SQLStatementProvider.InsertKategorie.Replace("@KategorieName", kategorie.Name)
+                .Replace("@Beschreibung", kategorie.Beschreibung));
+        }
+
+        private void Cancel_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }

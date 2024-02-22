@@ -29,7 +29,7 @@ public static class SQLStatementProvider
 
     public static string CreateKategorieTable = @"Create Table if not exists 'Kategorien' (Id int AUTO_INCREMENT,
                                                   Name varchar(255) not null, Beschreibung varchar(2000), Primary Key(Id));";
-    public static string InsertKategorie = "Insert Into Kategorien (Name,Beschreibung) Values (@KategorieName,@Beschreibung);";
+    public static string InsertKategorie = "Insert Into Kategorien (Name,Beschreibung) Values ('@KategorieName', '@Beschreibung');";
     public static string GatherKategories = "Select * from Kategorien;";
     public static string UpdateKategorie = @"Update Kategorien set Name = @KategorieName, @Beschreibung = @Beschreibung where Id = @Id;";
     public static string DeleteKategorie = @"Delete From Kategorien where Id = @Id";

@@ -38,19 +38,31 @@ namespace HaushaltsManager
             Kategorie selectedKategorie = (Kategorie)LocatedKategories.SelectedItem;
 
             rep.DoNonQueryCommand(SQLStatementProvider.InsertKategorie
-                .Replace("@Beschreibung",selectedKategorie.Beschreibung)
-                .Replace("@KategorieName",selectedKategorie.Name));
+                .Replace("@Beschreibung", selectedKategorie.Beschreibung)
+                .Replace("@KategorieName", selectedKategorie.Name));
         }
 
         private void UpdateKategories_Click(object sender, RoutedEventArgs e)
         {
             Kategorie selectedKategorie = (Kategorie)LocatedKategories.SelectedItem;
-            rep.DoNonQueryCommand(SQLStatementProvider.UpdateKategorie.Replace("@"))
+            rep.DoNonQueryCommand(SQLStatementProvider.UpdateKategorie
+                .Replace("@Id", selectedKategorie.Id.ToString())
+                .Replace("@KategorieName", selectedKategorie.Name)
+                .Replace("@Beschreibung", selectedKategorie.Beschreibung));
         }
 
         private void InsertKategories_Click(object sender, RoutedEventArgs e)
         {
-
+            int highestId = 0;
+            bool lockat = LocatedKategories is not null;
+            bool lockatsource = LocatedKategories.ItemsSource != null;
+            bool lockatcount = ((IEnumerable<Kategorie>)LocatedKategories.ItemsSource).Count() > 1;
+            if (lockat && lockatsource && lockatcount)
+            {
+                highestId = ((IEnumerable<Kategorie>)LocatedKategories.ItemsSource).Max(x => x.Id);
+            }
+            AddKategorie addKategorie = new AddKategorie(rep, highestId);
+            addKategorie.Show();
         }
     }
 }
