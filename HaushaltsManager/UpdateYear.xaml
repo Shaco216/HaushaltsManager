@@ -14,16 +14,14 @@
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
-                <ColumnDefinition/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition/>
-                <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Grid Grid.Row="0" Grid.Column="2">
+            <Grid Grid.Row="0" Grid.Column="1">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
                 <Label Grid.Row="0" Content="Year:" x:Name="YearSelector"/>
@@ -31,7 +29,7 @@
                 <Label Grid.Row="2" Content="PreviousYear"/>
                 <TextBox Grid.Row="3" x:Name="PrevYear" IsReadOnly="True"/>
             </Grid>
-            <Grid Grid.Column="2" Grid.Row="1">
+            <Grid Grid.Column="1" Grid.Row="1">
                 <Grid.RowDefinitions>
                     <RowDefinition/>
                     <RowDefinition/>
