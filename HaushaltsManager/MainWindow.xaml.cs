@@ -88,7 +88,7 @@ namespace HaushaltsManager
             {
                 Year selectedYear = LocatedYears.SelectedItem as Year;
                 AddBeleg addBeleg = new AddBeleg(rep, selectedYear.Jahr.ToString());
-                addBeleg.Title = "Beleg hinzufügen";
+                addBeleg.Title = $"Beleg im Jahr {selectedYear.Jahr} hinzufügen";
                 addBeleg.Width = 500;
                 addBeleg.Height = 300;
                 addBeleg.ShowDialog();
