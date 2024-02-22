@@ -23,16 +23,20 @@ namespace HaushaltsManager
     {
         private readonly BasicRepository rep;
         private readonly string _jahr;
+        private readonly int highestbelegId;
+        private readonly MainWindow mainWindow;
 
         public AddBeleg()
         {
             InitializeComponent();
         }
-        public AddBeleg(BasicRepository repo, string jahr)
+        public AddBeleg(BasicRepository repo, string jahr, int highestbelegId, MainWindow mainWindow)
         {
             InitializeComponent();
             rep = repo;
             _jahr = jahr;
+            this.highestbelegId = highestbelegId;
+            this.mainWindow = mainWindow;
             KategoriePicker.ItemsSource = rep.DoQueryCommand<IEnumerable<Kategorie>>(SQLStatementProvider.GatherKategories);
         }
 
@@ -40,6 +44,7 @@ namespace HaushaltsManager
         {
             Beleg toSave = new Beleg()
             {
+                Id = highestbelegId,
                 Jahr = Convert.ToInt32(_jahr),
                 Name = BelegName.Text,
                 Beschreibung = BelegBeschreibung.Text,
@@ -47,12 +52,21 @@ namespace HaushaltsManager
                 Datum = (DateTime)Datum.SelectedDate,
                 Betrag = Convert.ToDouble($"{Euro},{Cent}")
             };
-            rep.DoNonQueryCommand(SQLStatementProvider.InsertBeleg);
+            rep.DoNonQueryCommand(SQLStatementProvider.InsertBeleg
+                .Replace("@Id",toSave.Id.ToString())
+                .Replace("@Jahr",toSave.Jahr.ToString())
+                .Replace("@Name",toSave.Name)
+                .Replace("@Beschreibung",toSave.Beschreibung)
+                .Replace("@KategorieId",toSave.KategorieId.ToString())
+                .Replace("@Datum",toSave.Datum.ToString())
+                .Replace("@Betrag",toSave.Betrag.ToString()));
+            mainWindow.
+            this.Close();
         }
 
         private void BelegCancel_Click(object sender, RoutedEventArgs e)
         {
-
+            this.Close();
         }
     }
 }

@@ -84,10 +84,12 @@ namespace HaushaltsManager
 
         private void CreateBeleg_Click(object sender, RoutedEventArgs e)
         {
+            var locbel = (IEnumerable<Beleg>)ClickedYear.ItemsSource;
+            int highestbelegId = locbel.Max(x => x.Id);
             if (LocatedYears.SelectedItem is not null)
             {
                 Year selectedYear = LocatedYears.SelectedItem as Year;
-                AddBeleg addBeleg = new AddBeleg(rep, selectedYear.Jahr.ToString());
+                AddBeleg addBeleg = new AddBeleg(rep, selectedYear.Jahr.ToString(),highestbelegId,this);
                 addBeleg.Title = $"Beleg im Jahr {selectedYear.Jahr} hinzufügen";
                 addBeleg.Width = 500;
                 addBeleg.Height = 300;
@@ -110,6 +112,13 @@ namespace HaushaltsManager
         {
             KategorieOptionsWindow kategorieWindow = new(rep);
             kategorieWindow.ShowDialog();
+        }
+
+        public void LoadBeleg()
+        {
+            Year selectedYear = LocatedYears.SelectedItem as Year;
+            ClickedYear.ItemsSource = rep.DoQueryCommand<IEnumerable<Beleg>>(SQLStatementProvider.SelectBelegeFromYear
+                .Replace("@Year", selectedYear.Jahr.ToString()));
         }
     }
 }
