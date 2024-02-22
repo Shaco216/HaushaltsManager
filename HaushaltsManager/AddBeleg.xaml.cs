@@ -60,7 +60,7 @@ namespace HaushaltsManager
                 .Replace("@KategorieId",toSave.KategorieId.ToString())
                 .Replace("@Datum",toSave.Datum.ToString())
                 .Replace("@Betrag",toSave.Betrag.ToString()));
-            mainWindow.
+            mainWindow.LoadBeleg();
             this.Close();
         }
 

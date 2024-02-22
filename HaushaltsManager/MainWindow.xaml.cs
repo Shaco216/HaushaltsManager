@@ -120,5 +120,10 @@ namespace HaushaltsManager
             ClickedYear.ItemsSource = rep.DoQueryCommand<IEnumerable<Beleg>>(SQLStatementProvider.SelectBelegeFromYear
                 .Replace("@Year", selectedYear.Jahr.ToString()));
         }
+
+        private void LocatedYears_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            LoadBeleg();
+        }
     }
 }
