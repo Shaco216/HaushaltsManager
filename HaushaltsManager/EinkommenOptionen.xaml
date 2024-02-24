@@ -27,9 +27,9 @@
                     <ColumnDefinition Width="auto"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <DataGrid Grid.Column="0" x:Name="LocatedEinkommen" AutoGenerateColumns="True" CanUserAddRows="False" CanUserDeleteRows="False" IsReadOnly="False">
+                <DataGrid Grid.Column="0" x:Name="LocatedPerson" AutoGenerateColumns="True" CanUserAddRows="False" CanUserDeleteRows="False" IsReadOnly="False" SelectionChanged="LocatedPerson_SelectionChanged">
                 </DataGrid>
-                <DataGrid Grid.Column="1" x:Name="ClickedPerson" AutoGenerateColumns="True">
+                <DataGrid Grid.Column="1" x:Name="ClickedPersonToEinkommen" AutoGenerateColumns="True">
                 </DataGrid>
             </Grid>
         </Grid>
