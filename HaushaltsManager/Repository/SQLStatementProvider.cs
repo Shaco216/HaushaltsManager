@@ -57,6 +57,7 @@ public static class SQLStatementProvider
     public static string InsertPerson = "Insert into Person (Id,Vorname,Nachname) values ('@Id','@Vorname','@Nachname');";
     public static string UpdatePerson = "Update Person set Vorname = '@Vorname', Nachname = '@Nachname' Where Id = '@Id';";
     public static string DeletePerson = "Delete From Person Where Id = '@Id';";
+    public static string GatherPerson = "Select * from Person;";
 
     public static string CreateEinkommenTable = @"Create Table if not exists 'Einkommen' 
                                             (Id bigint, PersonId int, Jahr int, Name varchar(2000), Wert float, KategorieId int,
@@ -69,4 +70,5 @@ public static class SQLStatementProvider
     public static string UpdateEinkommen = "Update Einkommen set PersonId = '@PersonId', Jahr = '@Jahr', Name = '@Name', Wert = '@Wert', " +
         "KategorieId = '@KategorieId' where Id = '@Id';";
     public static string DeleteEinkommen = "Delete From Einkommen where Id = '@Id';";
+    public static string GatherEinkommenFromPerson = "Select * from Einkommen where PersonId = '@PersonId';";
 }

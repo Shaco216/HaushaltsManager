@@ -38,6 +38,8 @@ namespace HaushaltsManager
             creator.CreateTable(SQLStatementProvider.CreateBelegTable);
             creator.CreateTable(SQLStatementProvider.CreateArchivedBelegeTable);
             creator.CreateTable(SQLStatementProvider.CreateKategorieTable);
+            creator.CreateTable(SQLStatementProvider.CreatePersonTable);
+            creator.CreateTable(SQLStatementProvider.CreateEinkommenTable);
             UpdateItemSource();
         }
 
@@ -124,6 +126,12 @@ namespace HaushaltsManager
         private void LocatedYears_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             LoadBeleg();
+        }
+
+        private void _PersonOptions_Click(object sender, RoutedEventArgs e)
+        {
+            PersonOptions personOptions = new PersonOptions(rep);
+            personOptions.Show();
         }
     }
 }

@@ -11,6 +11,7 @@
             <MenuItem Header="_File"></MenuItem>
             <MenuItem Header="_Open">
                 <MenuItem Header="_KategorieOptions" Click="_KategorieOptions_Click"></MenuItem>
+                <MenuItem Header="_PersonOptions" Click="_PersonOptions_Click"></MenuItem>
             </MenuItem>
         </Menu>
         <Grid>
