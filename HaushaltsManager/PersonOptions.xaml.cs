@@ -32,11 +32,14 @@ namespace HaushaltsManager
         {
             InitializeComponent();
             this.basicRepository = basicRepository;
+            OnLoad();
         }
 
         private void InsertPerson_Click(object sender, RoutedEventArgs e)
         {
-            
+            int highestId = ((IEnumerable<Person>)LocatedPerson.ItemsSource).Max(x => x.Id);
+            AddPerson addPerson = new AddPerson(basicRepository,highestId,this);
+            addPerson.Show();
         }
 
         private void UpdatePerson_Click(object sender, RoutedEventArgs e)
@@ -52,6 +55,7 @@ namespace HaushaltsManager
         private void OpenEinkommenOptionen_Click(object sender, RoutedEventArgs e)
         {
             EinkommenOptionen einkommenOptionen = new EinkommenOptionen(basicRepository);
+            einkommenOptionen.Show();
         }
 
         public void OnLoad()

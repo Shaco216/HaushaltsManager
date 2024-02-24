@@ -102,7 +102,7 @@ namespace HaushaltsManager
 
         private void UpdateBeleg_Click(object sender, RoutedEventArgs e)
         {
-
+            
         }
 
         private void DeleteBeleg_Click(object sender, RoutedEventArgs e)
