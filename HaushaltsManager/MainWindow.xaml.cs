@@ -102,12 +102,24 @@ namespace HaushaltsManager
 
         private void UpdateBeleg_Click(object sender, RoutedEventArgs e)
         {
-            
+            if(LocatedYears.SelectedItem is not null && ClickedYear.SelectedItem is not null)
+            {
+                Year selectedYear = LocatedYears.SelectedItem as Year;
+                Beleg selectedBeleg = ClickedYear.SelectedItem as Beleg;
+                rep.DoNonQueryCommand(SQLStatementProvider.UpdateBeleg.Replace("@Jahr", selectedYear.Jahr.ToString()).Replace("@Name", selectedBeleg.Name).Replace("@Beschreibung", selectedBeleg.Beschreibung)
+                    .Replace("@Datum", selectedBeleg.Datum.ToString()).Replace("@Betrag", selectedBeleg.Betrag.ToString()).Replace("@Id",selectedBeleg.Id.ToString()));
+                LoadBeleg();
+            }
         }
 
         private void DeleteBeleg_Click(object sender, RoutedEventArgs e)
         {
-
+            if(LocatedYears.SelectedItem is not null && ClickedYear.SelectedItem is not null)
+            {
+                Beleg selectedBeleg = ClickedYear.SelectedItem as Beleg;
+                rep.DoNonQueryCommand(SQLStatementProvider.DeleteBeleg.Replace("@Id", selectedBeleg.Id.ToString()));
+                LoadBeleg();
+            }
         }
 
         private void _KategorieOptions_Click(object sender, RoutedEventArgs e)
