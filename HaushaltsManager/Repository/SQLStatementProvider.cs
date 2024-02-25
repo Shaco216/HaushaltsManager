@@ -53,7 +53,7 @@ public static class SQLStatementProvider
     public static string UpdateKategorie = @"Update Kategorien set Name = '@KategorieName', Beschreibung = '@Beschreibung' where Id = '@Id';";
     public static string DeleteKategorie = @"Delete From Kategorien where Id = '@Id'";
 
-    public static string CreatePersonTable = "Create Table if not exists 'Person' (Id int, Vorname varchar(100), Nachname(100), Primary Key(Id));";
+    public static string CreatePersonTable = "Create Table if not exists 'Person' (Id int, Vorname varchar(100), Nachname varchar(100), Primary Key(Id));";
     public static string InsertPerson = "Insert into Person (Id,Vorname,Nachname) values ('@Id','@Vorname','@Nachname');";
     public static string UpdatePerson = "Update Person set Vorname = '@Vorname', Nachname = '@Nachname' Where Id = '@Id';";
     public static string DeletePerson = "Delete From Person Where Id = '@Id';";
