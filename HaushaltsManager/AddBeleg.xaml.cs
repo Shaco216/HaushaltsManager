@@ -42,6 +42,7 @@ namespace HaushaltsManager
 
         private void BelegSave_Click(object sender, RoutedEventArgs e)
         {
+            double betrag = Convert.ToDouble($"{Euro.Text}.{Cent.Text}");
             Beleg toSave = new Beleg()
             {
                 Id = highestbelegId,
@@ -50,16 +51,17 @@ namespace HaushaltsManager
                 Beschreibung = BelegBeschreibung.Text,
                 KategorieId = ((Kategorie)KategoriePicker.SelectedItem).Id,
                 Datum = (DateTime)Datum.SelectedDate,
-                Betrag = Convert.ToDouble($"{Euro},{Cent}")
+                Betrag = betrag
             };
-            rep.DoNonQueryCommand(SQLStatementProvider.InsertBeleg
-                .Replace("@Id",toSave.Id.ToString())
-                .Replace("@Jahr",toSave.Jahr.ToString())
-                .Replace("@Name",toSave.Name)
-                .Replace("@Beschreibung",toSave.Beschreibung)
-                .Replace("@KategorieId",toSave.KategorieId.ToString())
-                .Replace("@Datum",toSave.Datum.ToString())
-                .Replace("@Betrag",toSave.Betrag.ToString()));
+            string sql = SQLStatementProvider.InsertBeleg
+                .Replace("@Id", toSave.Id.ToString())
+                .Replace("@Jahr", toSave.Jahr.ToString())
+                .Replace("@Name", toSave.Name)
+                .Replace("@Beschreibung", toSave.Beschreibung)
+                .Replace("@Datum", toSave.Datum.ToString())
+                .Replace("@KategorieId", toSave.KategorieId.ToString())
+                .Replace("@Betrag", toSave.Betrag.ToString());
+            rep.DoNonQueryCommand(sql);
             mainWindow.LoadBeleg();
             this.Close();
         }
