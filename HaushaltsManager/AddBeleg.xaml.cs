@@ -37,7 +37,7 @@ namespace HaushaltsManager
             _jahr = jahr;
             this.highestbelegId = highestbelegId;
             this.mainWindow = mainWindow;
-            KategoriePicker.ItemsSource = rep.DoQueryCommand<IEnumerable<Kategorie>>(SQLStatementProvider.GatherKategories);
+            KategoriePicker.ItemsSource = rep.DoQueryCommand<Kategorie>(SQLStatementProvider.GatherKategories);
         }
 
         private void BelegSave_Click(object sender, RoutedEventArgs e)

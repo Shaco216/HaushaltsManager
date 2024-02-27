@@ -16,6 +16,7 @@ namespace HaushaltsManager
         const string lastFilename = @"\DBFiles";
         const string filetype = "db";
         BasicRepository rep;
+        IEnumerable<Beleg> _belege;
         public MainWindow()
         {
             InitializeComponent();
@@ -75,12 +76,16 @@ namespace HaushaltsManager
 
         private void CreateBeleg_Click(object sender, RoutedEventArgs e)
         {
-            var locbel = (IEnumerable<Beleg>)ClickedYear.ItemsSource;
-            int highestbelegId = locbel.Max(x => x.Id);
+            int highestbelegId = 0;
+            if (_belege.Count() > 0)
+            {
+                highestbelegId = _belege.Max(x => x.Id);
+            }
             if (LocatedYears.SelectedItem is not null)
             {
                 Year selectedYear = LocatedYears.SelectedItem as Year;
-                AddBeleg addBeleg = new AddBeleg(rep, selectedYear.Jahr.ToString(),highestbelegId,this);
+                string jahr = selectedYear.Jahr.ToString();
+                AddBeleg addBeleg = new AddBeleg(rep,jahr, highestbelegId, this);
                 addBeleg.Title = $"Beleg im Jahr {selectedYear.Jahr} hinzufügen";
                 addBeleg.Width = 500;
                 addBeleg.Height = 300;
@@ -91,19 +96,21 @@ namespace HaushaltsManager
 
         private void UpdateBeleg_Click(object sender, RoutedEventArgs e)
         {
-            if(LocatedYears.SelectedItem is not null && ClickedYear.SelectedItem is not null)
+            if (LocatedYears.SelectedItem is not null && ClickedYear.SelectedItem is not null)
             {
                 Year selectedYear = LocatedYears.SelectedItem as Year;
                 Beleg selectedBeleg = ClickedYear.SelectedItem as Beleg;
                 rep.DoNonQueryCommand(SQLStatementProvider.UpdateBeleg.Replace("@Jahr", selectedYear.Jahr.ToString()).Replace("@Name", selectedBeleg.Name).Replace("@Beschreibung", selectedBeleg.Beschreibung)
-                    .Replace("@Datum", selectedBeleg.Datum.ToString()).Replace("@Betrag", selectedBeleg.Betrag.ToString()).Replace("@Id",selectedBeleg.Id.ToString()));
+                    .Replace("@Datum", selectedBeleg.Datum.ToString()).Replace("@Betrag", selectedBeleg.Betrag.ToString()).Replace("@Id", selectedBeleg.Id.ToString()));
                 LoadBeleg();
             }
         }
 
         private void DeleteBeleg_Click(object sender, RoutedEventArgs e)
         {
-            if(LocatedYears.SelectedItem is not null && ClickedYear.SelectedItem is not null)
+            if (LocatedYears.SelectedItem is not null
+                && _belege.Count() > 0
+                && ClickedYear.SelectedItem is not null)
             {
                 Beleg selectedBeleg = ClickedYear.SelectedItem as Beleg;
                 rep.DoNonQueryCommand(SQLStatementProvider.DeleteBeleg.Replace("@Id", selectedBeleg.Id.ToString()));
@@ -124,6 +131,7 @@ namespace HaushaltsManager
             .Replace("@Year", selectedYear.Jahr.ToString());
             IEnumerable<Beleg> belege = rep.DoQueryCommand<Beleg>(sql);
             ClickedYear.ItemsSource = belege;
+            _belege = belege;
         }
 
         private void LocatedYears_SelectionChanged(object sender, SelectionChangedEventArgs e)
