@@ -47,7 +47,7 @@
                     </Grid.ColumnDefinitions>
                     <DataGrid Grid.Column="0" x:Name="LocatedYears" AutoGenerateColumns="True" CanUserAddRows="False" CanUserDeleteRows="False" IsReadOnly="True" SelectionChanged="LocatedYears_SelectionChanged">
                     </DataGrid>
-                    <DataGrid Grid.Column="1" x:Name="ClickedYear" AutoGenerateColumns="True">
+                    <DataGrid Grid.Column="1" x:Name="ClickedYear" AutoGenerateColumns="True" CanUserAddRows="False" CanUserDeleteRows="False">
                     </DataGrid>
                 </Grid>
             </Grid>

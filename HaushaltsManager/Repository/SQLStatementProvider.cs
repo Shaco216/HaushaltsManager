@@ -14,7 +14,7 @@ public static class SQLStatementProvider
                     $"Primary Key(Id)," +
                     $"Foreign Key(Jahr) References Years(Jahr)," +
                     $"Foreign Key(KategorieId) References Kategorien(Id));";
-    public static string SelectBelegeFromYear = @"Select * from Belege where Jahr = @Year";
+    public static string SelectBelegeFromYear = @"Select * from Belege where Jahr = @Year;";
     public static string InsertBeleg = "Insert Into Belege " +
         "(" +
         "Id," +
