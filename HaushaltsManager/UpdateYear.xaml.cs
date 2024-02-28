@@ -1,4 +1,5 @@
-﻿using HaushaltsManager.Repository;
+﻿using HaushaltsManager.Model;
+using HaushaltsManager.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,10 +38,20 @@ namespace HaushaltsManager
 
         private void Save_Click(object sender, RoutedEventArgs e)
         {
+            string newyear = Yearselector.Text;
             string sqlcmd = SQLStatementProvider.UpdateYear
                     .Replace("@PrevYear", previousyear)
-                    .Replace("@Year", Yearselector.Text);
+                    .Replace("@Year", newyear);
             repo.DoNonQueryCommand( sqlcmd );
+            string belegsql = SQLStatementProvider.SelectBelegeFromYear
+                .Replace("@Year", previousyear);
+            IEnumerable<Beleg> belege = repo.DoQueryCommand<Beleg>(belegsql);
+            foreach (Beleg beleg in belege)
+            {
+                string updatesql = SQLStatementProvider.UpdateBelegbyYear.Replace("@Id",beleg.Id.ToString())
+                    .Replace("@Year",newyear);
+                repo.DoNonQueryCommand(updatesql);
+            }
             this.Close();
         }
     }

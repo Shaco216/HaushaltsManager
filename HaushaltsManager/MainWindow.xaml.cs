@@ -65,6 +65,15 @@ namespace HaushaltsManager
             {
                 Year selectedYear = (Year)LocatedYears.SelectedItem;
                 rep.DoNonQueryCommand(SQLStatementProvider.DeleteYear.Replace("@Year", selectedYear.Jahr.ToString()));
+                string belegsql = SQLStatementProvider.SelectBelegeFromYear
+                    .Replace("@Year", selectedYear.Jahr.ToString());
+                IEnumerable<Beleg> belege = rep.DoQueryCommand<Beleg>(belegsql);
+                foreach (Beleg beleg in belege)
+                {
+                    string updatesql = SQLStatementProvider.DeleteBelegFromYear
+                        .Replace("@Year", selectedYear.Jahr.ToString());
+                    rep.DoNonQueryCommand(updatesql);
+                }
                 UpdateItemSource();
             }
         }
@@ -85,7 +94,7 @@ namespace HaushaltsManager
             {
                 Year selectedYear = LocatedYears.SelectedItem as Year;
                 string jahr = selectedYear.Jahr.ToString();
-                AddBeleg addBeleg = new AddBeleg(rep,jahr, highestbelegId, this);
+                AddBeleg addBeleg = new AddBeleg(rep, jahr, highestbelegId, this);
                 addBeleg.Title = $"Beleg im Jahr {selectedYear.Jahr} hinzufügen";
                 addBeleg.Width = 500;
                 addBeleg.Height = 300;
@@ -129,7 +138,6 @@ namespace HaushaltsManager
             Year selectedYear = LocatedYears.SelectedItem as Year;
             string sql = SQLStatementProvider.SelectBelegeFromYear
             .Replace("@Year", selectedYear.Jahr.ToString());
-            //var belege = rep.DoQueryCommand<object>(sql);
             IEnumerable<Beleg> belege = rep.DoQueryCommand<Beleg>(sql);
             ClickedYear.ItemsSource = belege;
             _belege = belege;

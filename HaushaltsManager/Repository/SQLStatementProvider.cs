@@ -33,8 +33,9 @@ public static class SQLStatementProvider
         "KategorieId = '@KategorieId'," +
         "Betrag = '@Betrag'" +
         "Where Id = '@Id';";
-    public static string DeleteBeleg = "Delete from Belege where '@Id';";
-
+    public static string UpdateBelegbyYear = "Update Belege set Year = '@Year' where Id = '@Id';";
+    public static string DeleteBeleg = "Delete from Belege where Id = '@Id';";
+    public static string DeleteBelegFromYear = "Delete from Belege where Year = '@Year';";
 
     public static string CreateYearsTable = "Create Table if not exists 'Years' (Jahr int Not Null, Primary Key(Jahr));";
     public static string GatherYears = "Select * from Years;";
