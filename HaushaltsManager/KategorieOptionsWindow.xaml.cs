@@ -22,24 +22,34 @@ namespace HaushaltsManager
     public partial class KategorieOptionsWindow : Window
     {
         BasicRepository rep;
+        private readonly MainWindow _mainWindow;
+
         public KategorieOptionsWindow()
         {
             InitializeComponent();
         }
-        public KategorieOptionsWindow(BasicRepository repo)
+        public KategorieOptionsWindow(BasicRepository repo, MainWindow mainWindow)
         {
             InitializeComponent();
             rep = repo;
+            _mainWindow = mainWindow;
             LoadKategories();
         }
 
         private void DeleteKategories_Click(object sender, RoutedEventArgs e)
         {
             Kategorie selectedKategorie = (Kategorie)LocatedKategories.SelectedItem;
-
-            rep.DoNonQueryCommand(SQLStatementProvider.DeleteKategorie
-                .Replace("@Id", selectedKategorie.Id.ToString()));
-            LoadKategories();
+            IEnumerable<Beleg> belegs = rep.DoQueryCommand<Beleg>(SQLStatementProvider.SelectBelegeFromKategorieId.Replace("@KategorieId", selectedKategorie.Id.ToString()));
+            if (belegs.Count() < 0)
+            {
+                rep.DoNonQueryCommand(SQLStatementProvider.DeleteKategorie
+                    .Replace("@Id", selectedKategorie.Id.ToString()));
+                LoadKategories();
+            }
+            else
+            {
+                MessageBox.Show("Kategorie konnte nicht gelöscht werden, da noch Belege diese Kategorie verwenden.");
+            }
         }
 
         private void UpdateKategories_Click(object sender, RoutedEventArgs e)
@@ -49,7 +59,15 @@ namespace HaushaltsManager
                 .Replace("@Id", selectedKategorie.Id.ToString())
                 .Replace("@KategorieName", selectedKategorie.Name)
                 .Replace("@Beschreibung", selectedKategorie.Beschreibung));
+            IEnumerable<Beleg> belegs = rep.DoQueryCommand<Beleg>(SQLStatementProvider.SelectBelegeFromKategorieId
+                .Replace("@KategorieId", selectedKategorie.Id.ToString()));
+            foreach (Beleg beleg in belegs)
+            {
+                rep.DoNonQueryCommand(SQLStatementProvider.UpdateBelegbyKategorie.Replace("@KategorieId", selectedKategorie.Id.ToString())
+                    .Replace("@Id", beleg.Id.ToString()));
+            }
             LoadKategories();
+            _mainWindow.ClickedYear.ItemsSource = null;
         }
 
         private void InsertKategories_Click(object sender, RoutedEventArgs e)

@@ -14,7 +14,8 @@ public static class SQLStatementProvider
                     $"Primary Key(Id)," +
                     $"Foreign Key(Jahr) References Years(Jahr)," +
                     $"Foreign Key(KategorieId) References Kategorien(Id));";
-    public static string SelectBelegeFromYear = @"Select * from Belege where Jahr = @Year;";
+    public static string SelectBelegeFromYear = @"Select * from Belege where Jahr = '@Year';";
+    public static string SelectBelegeFromKategorieId = "Select * from Belege where KategorieId = '@KategorieId';";
     public static string InsertBeleg = "Insert Into Belege " +
         "(" +
         "Id," +
@@ -33,9 +34,10 @@ public static class SQLStatementProvider
         "KategorieId = '@KategorieId'," +
         "Betrag = '@Betrag'" +
         "Where Id = '@Id';";
-    public static string UpdateBelegbyYear = "Update Belege set Year = '@Year' where Id = '@Id';";
+    public static string UpdateBelegbyYear = "Update Belege set Jahr = '@Year' where Id = '@Id';";
+    public static string UpdateBelegbyKategorie = "Update Belege set KategorieId = '@KategorieId' where Id = '@Id';";
     public static string DeleteBeleg = "Delete from Belege where Id = '@Id';";
-    public static string DeleteBelegFromYear = "Delete from Belege where Year = '@Year';";
+    public static string DeleteBelegFromYear = "Delete from Belege where Jahr = '@Year';";
 
     public static string CreateYearsTable = "Create Table if not exists 'Years' (Jahr int Not Null, Primary Key(Jahr));";
     public static string GatherYears = "Select * from Years;";

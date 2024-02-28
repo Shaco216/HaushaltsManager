@@ -57,6 +57,7 @@ namespace HaushaltsManager
                 updateYear.ShowDialog();
             }
             UpdateItemSource();
+
         }
 
         private void DeleteYear_Click(object sender, RoutedEventArgs e)
@@ -81,6 +82,7 @@ namespace HaushaltsManager
         {
             var years = rep.DoQueryCommand<Year>(SQLStatementProvider.GatherYears);
             LocatedYears.ItemsSource = years;
+            ClickedYear.ItemsSource = null;
         }
 
         private void CreateBeleg_Click(object sender, RoutedEventArgs e)
@@ -129,18 +131,21 @@ namespace HaushaltsManager
 
         private void _KategorieOptions_Click(object sender, RoutedEventArgs e)
         {
-            KategorieOptionsWindow kategorieWindow = new(rep);
+            KategorieOptionsWindow kategorieWindow = new(rep,this);
             kategorieWindow.ShowDialog();
         }
 
         public void LoadBeleg()
         {
-            Year selectedYear = LocatedYears.SelectedItem as Year;
-            string sql = SQLStatementProvider.SelectBelegeFromYear
-            .Replace("@Year", selectedYear.Jahr.ToString());
-            IEnumerable<Beleg> belege = rep.DoQueryCommand<Beleg>(sql);
-            ClickedYear.ItemsSource = belege;
-            _belege = belege;
+            if (LocatedYears.SelectedItem is not null)
+            {
+                Year selectedYear = LocatedYears.SelectedItem as Year;
+                string sql = SQLStatementProvider.SelectBelegeFromYear
+                .Replace("@Year", selectedYear.Jahr.ToString());
+                IEnumerable<Beleg> belege = rep.DoQueryCommand<Beleg>(sql);
+                ClickedYear.ItemsSource = belege;
+                _belege = belege;
+            }
         }
 
         private void LocatedYears_SelectionChanged(object sender, SelectionChangedEventArgs e)
