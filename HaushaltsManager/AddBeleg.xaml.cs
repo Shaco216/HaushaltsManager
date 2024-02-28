@@ -35,7 +35,7 @@ namespace HaushaltsManager
             InitializeComponent();
             rep = repo;
             _jahr = jahr;
-            this.highestbelegId = highestbelegId;
+            this.highestbelegId = highestbelegId++;
             this.mainWindow = mainWindow;
             KategoriePicker.ItemsSource = rep.DoQueryCommand<Kategorie>(SQLStatementProvider.GatherKategories);
         }

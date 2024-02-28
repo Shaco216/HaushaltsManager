@@ -107,12 +107,14 @@ namespace HaushaltsManager
 
         private void UpdateBeleg_Click(object sender, RoutedEventArgs e)
         {
-            if (LocatedYears.SelectedItem is not null && ClickedYear.SelectedItem is not null)
+            if (LocatedYears.SelectedItem is not null && _belege.Count() > 0 && ClickedYear.SelectedItem is not null)
             {
                 Year selectedYear = LocatedYears.SelectedItem as Year;
                 Beleg selectedBeleg = ClickedYear.SelectedItem as Beleg;
-                rep.DoNonQueryCommand(SQLStatementProvider.UpdateBeleg.Replace("@Jahr", selectedYear.Jahr.ToString()).Replace("@Name", selectedBeleg.Name).Replace("@Beschreibung", selectedBeleg.Beschreibung)
-                    .Replace("@Datum", selectedBeleg.Datum.ToString()).Replace("@Betrag", selectedBeleg.Betrag.ToString()).Replace("@Id", selectedBeleg.Id.ToString()));
+                string sqlcmd = SQLStatementProvider.UpdateBeleg.Replace("@Jahr", selectedYear.Jahr.ToString()).Replace("@Name", selectedBeleg.Name).Replace("@Beschreibung", selectedBeleg.Beschreibung)
+                    .Replace("@Datum", selectedBeleg.Datum.ToString()).Replace("@Betrag", selectedBeleg.Betrag.ToString()).Replace("@Id", selectedBeleg.Id.ToString())
+                    .Replace("@KategorieId", selectedBeleg.KategorieId.ToString());
+                rep.DoNonQueryCommand(sqlcmd);
                 LoadBeleg();
             }
         }
