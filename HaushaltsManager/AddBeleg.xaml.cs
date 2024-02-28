@@ -42,7 +42,7 @@ namespace HaushaltsManager
 
         private void BelegSave_Click(object sender, RoutedEventArgs e)
         {
-            double betrag = Convert.ToDouble($"{Euro.Text}.{Cent.Text}");
+            double betrag = Double.Parse($"{Euro.Text}.{Cent.Text}");
             Beleg toSave = new Beleg()
             {
                 Id = highestbelegId,
@@ -50,7 +50,7 @@ namespace HaushaltsManager
                 Name = BelegName.Text,
                 Beschreibung = BelegBeschreibung.Text,
                 KategorieId = ((Kategorie)KategoriePicker.SelectedItem).Id,
-                Datum = (DateTime)Datum.SelectedDate,
+                Datum = ((DateTime)Datum.SelectedDate).ToString(),
                 Betrag = betrag
             };
             string sql = SQLStatementProvider.InsertBeleg
@@ -58,7 +58,7 @@ namespace HaushaltsManager
                 .Replace("@Jahr", toSave.Jahr.ToString())
                 .Replace("@Name", toSave.Name)
                 .Replace("@Beschreibung", toSave.Beschreibung)
-                .Replace("@Datum", toSave.Datum.ToString())
+                .Replace("@Datum", toSave.Datum)
                 .Replace("@KategorieId", toSave.KategorieId.ToString())
                 .Replace("@Betrag", toSave.Betrag.ToString());
             rep.DoNonQueryCommand(sql);

@@ -77,7 +77,7 @@ namespace HaushaltsManager
         private void CreateBeleg_Click(object sender, RoutedEventArgs e)
         {
             int highestbelegId = 0;
-            if (_belege.Count() > 0)
+            if (_belege is not null && _belege.Count() > 0)
             {
                 highestbelegId = _belege.Max(x => x.Id);
             }
@@ -129,6 +129,7 @@ namespace HaushaltsManager
             Year selectedYear = LocatedYears.SelectedItem as Year;
             string sql = SQLStatementProvider.SelectBelegeFromYear
             .Replace("@Year", selectedYear.Jahr.ToString());
+            //var belege = rep.DoQueryCommand<object>(sql);
             IEnumerable<Beleg> belege = rep.DoQueryCommand<Beleg>(sql);
             ClickedYear.ItemsSource = belege;
             _belege = belege;

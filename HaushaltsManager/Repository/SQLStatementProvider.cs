@@ -8,7 +8,7 @@ public static class SQLStatementProvider
                     $"Jahr Int, " +
                     $"Name varchar(255), " +
                     $"Beschreibung varchar(2000), " +
-                    $"Datum datetime, " +
+                    $"Datum varchar(255), " +
                     $"KategorieId Int, " +
                     $"Betrag float, " +
                     $"Primary Key(Id)," +
