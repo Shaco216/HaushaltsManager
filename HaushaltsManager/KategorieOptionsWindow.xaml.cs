@@ -54,20 +54,23 @@ namespace HaushaltsManager
 
         private void UpdateKategories_Click(object sender, RoutedEventArgs e)
         {
-            Kategorie selectedKategorie = (Kategorie)LocatedKategories.SelectedItem;
-            rep.DoNonQueryCommand(SQLStatementProvider.UpdateKategorie
-                .Replace("@Id", selectedKategorie.Id.ToString())
-                .Replace("@KategorieName", selectedKategorie.Name)
-                .Replace("@Beschreibung", selectedKategorie.Beschreibung));
-            IEnumerable<Beleg> belegs = rep.DoQueryCommand<Beleg>(SQLStatementProvider.SelectBelegeFromKategorieId
-                .Replace("@KategorieId", selectedKategorie.Id.ToString()));
-            foreach (Beleg beleg in belegs)
+            if (LocatedKategories.SelectedItem is not null)
             {
-                rep.DoNonQueryCommand(SQLStatementProvider.UpdateBelegbyKategorie.Replace("@KategorieId", selectedKategorie.Id.ToString())
-                    .Replace("@Id", beleg.Id.ToString()));
+                Kategorie selectedKategorie = (Kategorie)LocatedKategories.SelectedItem;
+                rep.DoNonQueryCommand(SQLStatementProvider.UpdateKategorie
+                    .Replace("@Id", selectedKategorie.Id.ToString())
+                    .Replace("@KategorieName", selectedKategorie.Name)
+                    .Replace("@Beschreibung", selectedKategorie.Beschreibung));
+                IEnumerable<Beleg> belegs = rep.DoQueryCommand<Beleg>(SQLStatementProvider.SelectBelegeFromKategorieId
+                    .Replace("@KategorieId", selectedKategorie.Id.ToString()));
+                foreach (Beleg beleg in belegs)
+                {
+                    rep.DoNonQueryCommand(SQLStatementProvider.UpdateBelegbyKategorie.Replace("@KategorieId", selectedKategorie.Id.ToString())
+                        .Replace("@Id", beleg.Id.ToString()));
+                }
+                LoadKategories();
+                _mainWindow.ClickedYear.ItemsSource = null;
             }
-            LoadKategories();
-            _mainWindow.ClickedYear.ItemsSource = null;
         }
 
         private void InsertKategories_Click(object sender, RoutedEventArgs e)

@@ -59,7 +59,7 @@ namespace HaushaltsManager
 
         public void OnLoad()
         {
-            LocatedPerson.ItemsSource = rep.DoQueryCommand<IEnumerable<Person>>(SQLStatementProvider.GatherPerson);
+            LocatedPerson.ItemsSource = rep.DoQueryCommand<Person>(SQLStatementProvider.GatherPerson);
         }
     }
 }
