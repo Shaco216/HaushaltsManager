@@ -33,7 +33,8 @@ namespace HaushaltsManager
 
         public void LoadPersons()
         {
-            LocatedPerson.ItemsSource = rep.DoQueryCommand<IEnumerable<Person>>(SQLStatementProvider.GatherPerson);
+            //TODO: check warum null
+            LocatedPerson.ItemsSource = rep.DoQueryCommand<Person>(SQLStatementProvider.GatherPerson);
         }
 
         private void InsertEinkommen_Click(object sender, RoutedEventArgs e)

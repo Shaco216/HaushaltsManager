@@ -25,14 +25,20 @@ namespace HaushaltsManager
 
         private void InsertPerson_Click(object sender, RoutedEventArgs e)
         {
-            int highestId = ((IEnumerable<Person>)LocatedPerson.ItemsSource).Max(x => x.Id);
-            AddPerson addPerson = new AddPerson(rep,highestId,this);
+            var personenEintraege = (IEnumerable<Person>)LocatedPerson.ItemsSource;
+            int highestId = 0;
+            if (personenEintraege.Any())
+            {
+                highestId = personenEintraege.Max(x => x.Id);
+            }
+
+            AddPerson addPerson = new AddPerson(rep, highestId, this);
             addPerson.Show();
         }
 
         private void UpdatePerson_Click(object sender, RoutedEventArgs e)
         {
-            if(LocatedPerson.SelectedItem != null)
+            if (LocatedPerson.SelectedItem != null)
             {
                 Person selectedperson = LocatedPerson.SelectedItem as Person;
                 rep.DoNonQueryCommand(SQLStatementProvider.UpdatePerson.Replace("@Vorname", selectedperson.Vorname).Replace("@Nachname", selectedperson.Nachname)
