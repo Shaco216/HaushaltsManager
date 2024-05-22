@@ -50,7 +50,7 @@ namespace HaushaltsManager
             {
                 string updatesql = SQLStatementProvider.UpdateBelegbyYear.Replace("@Id",beleg.Id.ToString())
                     .Replace("@Year",newyear);
-                repo.DoNonQueryCommand(updatesql);
+                int rowsUpdated = repo.DoNonQueryCommand(updatesql);
             }
             this.Close();
         }
