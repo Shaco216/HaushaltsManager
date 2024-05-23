@@ -59,7 +59,8 @@ namespace HaushaltsManager
 
         private void OpenEinkommenOptionen_Click(object sender, RoutedEventArgs e)
         {
-            EinkommenOptionen einkommenOptionen = new EinkommenOptionen(rep);
+            var personen = rep.DoQueryCommand<Person>(SQLStatementProvider.GatherPerson);
+            EinkommenOptionen einkommenOptionen = new EinkommenOptionen(rep, personen);
             einkommenOptionen.Show();
         }
 

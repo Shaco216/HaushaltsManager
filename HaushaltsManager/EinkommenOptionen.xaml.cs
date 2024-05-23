@@ -10,31 +10,28 @@ namespace HaushaltsManager
     public partial class EinkommenOptionen : Window
     {
         private readonly BasicRepository rep;
+        private readonly IEnumerable<Person> people;
 
         public EinkommenOptionen()
         {
             InitializeComponent();
         }
 
-        public EinkommenOptionen(BasicRepository rep)
+        public EinkommenOptionen(BasicRepository rep, IEnumerable<Person> people)
         {
+            InitializeComponent();
             this.rep = rep;
-            LoadPersons();
+            this.people = people;
+            LocatedPersons.ItemsSource = people;
         }
 
         public void LoadEinkommenFromPerson() 
         {
-            if(LocatedPerson.SelectedItem != null)
+            if(LocatedPersons.SelectedItem != null)
             {
-                Person selectedPerson = LocatedPerson.SelectedItem as Person;
-                ClickedPersonToEinkommen.ItemsSource = rep.DoQueryCommand<IEnumerable<Einkommen>>(SQLStatementProvider.GatherEinkommenFromPerson.Replace("@PersonId", selectedPerson.Id.ToString()));
+                Person selectedPerson = LocatedPersons.SelectedItem as Person;
+                ClickedPersonToEinkommen.ItemsSource = rep.DoQueryCommand<Einkommen>(SQLStatementProvider.GatherEinkommenFromPerson.Replace("@PersonId", selectedPerson.Id.ToString()));
             }
-        }
-
-        public void LoadPersons()
-        {
-            //TODO: check warum null
-            LocatedPerson.ItemsSource = rep.DoQueryCommand<Person>(SQLStatementProvider.GatherPerson);
         }
 
         private void InsertEinkommen_Click(object sender, RoutedEventArgs e)

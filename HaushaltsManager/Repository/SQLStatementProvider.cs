@@ -73,5 +73,5 @@ public static class SQLStatementProvider
     public static string UpdateEinkommen = "Update Einkommen set PersonId = '@PersonId', Jahr = '@Jahr', Name = '@Name', Wert = '@Wert', " +
         "KategorieId = '@KategorieId' where Id = '@Id';";
     public static string DeleteEinkommen = "Delete From Einkommen where Id = '@Id';";
-    public static string GatherEinkommenFromPerson = "Select * from Einkommen where PersonId = '@PersonId';";
+    public static string GatherEinkommenFromPerson = "Select * from Einkommen where PersonId = @PersonId;";
 }
