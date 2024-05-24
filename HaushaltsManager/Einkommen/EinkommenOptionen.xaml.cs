@@ -1,4 +1,5 @@
-﻿using HaushaltsManager.Model;
+﻿using HaushaltsManager.Einkommen;
+using HaushaltsManager.Model;
 using HaushaltsManager.Repository;
 using System.Windows;
 
@@ -11,6 +12,7 @@ namespace HaushaltsManager
     {
         private readonly BasicRepository rep;
         private readonly IEnumerable<Person> people;
+        private Person _selectedPerson;
 
         public EinkommenOptionen()
         {
@@ -25,18 +27,24 @@ namespace HaushaltsManager
             LocatedPersons.ItemsSource = people;
         }
 
-        public void LoadEinkommenFromPerson() 
+        public void LoadEinkommenFromPerson()
         {
-            if(LocatedPersons.SelectedItem != null)
+            if (LocatedPersons.SelectedItem != null)
             {
-                Person selectedPerson = LocatedPersons.SelectedItem as Person;
-                ClickedPersonToEinkommen.ItemsSource = rep.DoQueryCommand<Einkommen>(SQLStatementProvider.GatherEinkommenFromPerson.Replace("@PersonId", selectedPerson.Id.ToString()));
+                _selectedPerson = LocatedPersons.SelectedItem as Person;
+                ClickedPersonToEinkommen.ItemsSource = rep.DoQueryCommand<Model.Einkommen>(SQLStatementProvider.GatherEinkommenFromPerson.Replace("@PersonId", selectedPerson.Id.ToString()));
             }
         }
 
         private void InsertEinkommen_Click(object sender, RoutedEventArgs e)
         {
+            if (_selectedPerson is not null)
+            {
+                AddEinkommen addEinkommen = new AddEinkommen(rep, _selectedPerson);
+                addEinkommen.Title = $"Einkommen von {_selectedPerson.Vorname} {_selectedPerson.Nachname}";
+                addEinkommen.Show();
 
+            }
         }
 
         private void UpdateEinkommen_Click(object sender, RoutedEventArgs e)

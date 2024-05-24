@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace HaushaltsManager.Model
+﻿namespace HaushaltsManager.Model
 {
     public class Einkommen
     {
@@ -13,6 +7,8 @@ namespace HaushaltsManager.Model
         public int Jahr {  get; set; }
         public string Name { get; set; }
         public double Wert { get; set; }
-        public int KategorieId { get; set; }
+        public EinnahmeFrequenz EinnahmeHaeufigkeit { get; set; }
+        public DateTime Startdate { get; set; }
+        public DateTime Enddate { get; set; }
     }
 }

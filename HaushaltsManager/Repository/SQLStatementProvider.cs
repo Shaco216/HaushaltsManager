@@ -63,15 +63,14 @@ public static class SQLStatementProvider
     public static string GatherPerson = "Select * from Person;";
 
     public static string CreateEinkommenTable = @"Create Table if not exists 'Einkommen' 
-                                            (Id bigint, PersonId int, Jahr int, Name varchar(2000), Wert float, KategorieId int,
+                                            (Id bigint, PersonId int, Jahr int, Name varchar(2000), Wert float, EinnahmeHaeufigkeit Int,StartDate datetime, EndDate datetime
                                             Primary Key(Id),
                                             Foreign Key(Jahr) References Years(Jahr),
-                                            Foreign Key(KategorieId) References Kategorien(Id),
                                             Foreign Key(PersonId) References Person(Id));";
-    public static string InsertEinkommen = "Insert into Einkommen (Id, PersonId, Jahr, Name, Wert, KategorieId) " +
-        "Values ('@Id', '@PersonId', '@Jahr', '@Name', '@Wert', '@KategorieId');";
+    public static string InsertEinkommen = "Insert into Einkommen (Id, PersonId, Jahr, Name, Wert, EinnahmeHaeufigkeit, StartDate, EndDate) " +
+        "Values ('@Id', '@PersonId', '@Jahr', '@Name', '@Wert', '@EinnahmeHaeufigkeit','@StartDate', '@EndDate');";
     public static string UpdateEinkommen = "Update Einkommen set PersonId = '@PersonId', Jahr = '@Jahr', Name = '@Name', Wert = '@Wert', " +
-        "KategorieId = '@KategorieId' where Id = '@Id';";
+        "EinnahmeHaeufigkeit = '@EinnahmeHaeufigkeit', StartDate = '@StartDate', EndDate = '@EndDate' where Id = '@Id';";
     public static string DeleteEinkommen = "Delete From Einkommen where Id = '@Id';";
     public static string GatherEinkommenFromPerson = "Select * from Einkommen where PersonId = @PersonId;";
 }
