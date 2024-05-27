@@ -16,6 +16,7 @@ namespace HaushaltsManager.Einkommen
         {
             InitializeComponent();
             EinnahmeHaeufigkeit.ItemsSource = Enum.GetValues(typeof(EinnahmeFrequenz));
+            EinnahmeHaeufigkeit.SelectedItem = EinnahmeFrequenz.None;
             this.rep = rep;
             this.person = person;
         }
@@ -29,16 +30,28 @@ namespace HaushaltsManager.Einkommen
 
             if (IsJahrNotLeer && IsNameNotLeer && IsWertNotLeer && IsEinnahmeHaufigkeitNotNone)
             {
-                rep.DoNonQueryCommand(SQLStatementProvider.InsertEinkommen)
+                //'@PersonId', '@Jahr', '@Name', '@Wert', '@EinnahmeHaeufigkeit','@StartDate', '@EndDate'
+                string insertsql = SQLStatementProvider.InsertEinkommen.Replace("@PersonId", person.Id.ToString()
+                    .Replace("@Jahr", EinkommenJahr.Text).Replace("@Name", EinkommenName.Text).Replace("@Wert", EinkommenWert.Text).Replace("@EinnahmeHaeufigkeit", EinnahmeHaeufigkeit.Text)
+                    .Replace("@StartDate", StartDate.Text).Replace("@EndDate", EndDate.Text));
+                rep.DoNonQueryCommand(insertsql);
             }
         }
 
         private void EinnahmeEinmaligStartDateChanged(object sender, RoutedEventArgs e)
         {
-            if((EinnahmeFrequenz)Enum.Parse(typeof(EinnahmeFrequenz), EinnahmeHaeufigkeit.Text) == EinnahmeFrequenz.Einmalig && StartDate.Text is not null || StartDate.Text == string.Empty)
+            if (StartDate.Text != string.Empty && DateTime.TryParse(StartDate.Text,out DateTime _))
             {
-                EndDate.Text = StartDate.Text;
+                if ((EinnahmeFrequenz)Enum.Parse(typeof(EinnahmeFrequenz), EinnahmeHaeufigkeit.Text) == EinnahmeFrequenz.Einmalig && StartDate.Text is not null || StartDate.Text == string.Empty)
+                {
+                    EndDate.Text = StartDate.Text;
+                }
             }
+        }
+
+        private void CancelEinkommen_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
         }
     }
 }

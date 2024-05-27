@@ -27,12 +27,12 @@
         <Label Content="EinkommenWert:" Grid.Row="0" Grid.Column="2" />
         <TextBox x:Name="EinkommenWert" Grid.Row="1" Grid.Column="2" />
         <Label Content="EinnahmeHaeufigkeit:" Grid.Row="0" Grid.Column="3"/>
-        <ComboBox x:Name="EinnahmeHaeufigkeit" Grid.Row="1" Grid.Column="3"/>
+        <ComboBox x:Name="EinnahmeHaeufigkeit" Grid.Row="1" Grid.Column="3" SelectionChanged="EinnahmeEinmaligStartDateChanged"/>
         <Label Content="StartDate:" Grid.Row="0" Grid.Column="4" />
         <DatePickerTextBox x:Name="StartDate" Grid.Row="1" Grid.Column="4" SelectionChanged="EinnahmeEinmaligStartDateChanged"/>
         <Label Content="EndDate:" Grid.Row="0" Grid.Column="5"/>
         <DatePickerTextBox x:Name="EndDate" Grid.Row="1" Grid.Column="5" />
         <Button Content="Save" Click="InsertEinkommen_Click" Grid.Row="2" Grid.Column="4" />
-        <Button Content="Cancel" Click="Einkommen_Click" Grid.Row="2" Grid.Column="5"/>
+        <Button Content="Cancel" Click="CancelEinkommen_Click" Grid.Row="2" Grid.Column="5"/>
     </Grid>
 </Window>

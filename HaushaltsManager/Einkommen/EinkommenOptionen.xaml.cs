@@ -32,7 +32,7 @@ namespace HaushaltsManager
             if (LocatedPersons.SelectedItem != null)
             {
                 _selectedPerson = LocatedPersons.SelectedItem as Person;
-                ClickedPersonToEinkommen.ItemsSource = rep.DoQueryCommand<Model.Einkommen>(SQLStatementProvider.GatherEinkommenFromPerson.Replace("@PersonId", selectedPerson.Id.ToString()));
+                ClickedPersonToEinkommen.ItemsSource = rep.DoQueryCommand<Model.Einkommen>(SQLStatementProvider.GatherEinkommenFromPerson.Replace("@PersonId", _selectedPerson.Id.ToString()));
             }
         }
 
