@@ -31,10 +31,11 @@ namespace HaushaltsManager.Einkommen
             if (IsJahrNotLeer && IsNameNotLeer && IsWertNotLeer && IsEinnahmeHaufigkeitNotNone)
             {
                 //'@PersonId', '@Jahr', '@Name', '@Wert', '@EinnahmeHaeufigkeit','@StartDate', '@EndDate'
-                string insertsql = SQLStatementProvider.InsertEinkommen.Replace("@PersonId", person.Id.ToString()
+                string insertsql = SQLStatementProvider.InsertEinkommen.Replace("@PersonId", person.Id.ToString())
                     .Replace("@Jahr", EinkommenJahr.Text).Replace("@Name", EinkommenName.Text).Replace("@Wert", EinkommenWert.Text).Replace("@EinnahmeHaeufigkeit", EinnahmeHaeufigkeit.Text)
-                    .Replace("@StartDate", StartDate.Text).Replace("@EndDate", EndDate.Text));
+                    .Replace("@StartDate", StartDate.Text).Replace("@EndDate", EndDate.Text);
                 rep.DoNonQueryCommand(insertsql);
+                this.Close();
             }
         }
 
@@ -51,7 +52,7 @@ namespace HaushaltsManager.Einkommen
 
         private void CancelEinkommen_Click(object sender, RoutedEventArgs e)
         {
-            Close();
+            this.Close();
         }
     }
 }

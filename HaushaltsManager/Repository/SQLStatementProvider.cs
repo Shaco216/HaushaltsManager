@@ -67,7 +67,7 @@ public static class SQLStatementProvider
                                             Primary Key(Id),
                                             Foreign Key(Jahr) References Years(Jahr),
                                             Foreign Key(PersonId) References Person(Id));";
-    public static string InsertEinkommen = "Insert into Einkommen (Id, PersonId, Jahr, Name, Wert, EinnahmeHaeufigkeit, StartDate, EndDate) " +
+    public static string InsertEinkommen = "Insert into Einkommen (PersonId, Jahr, Name, Wert, EinnahmeHaeufigkeit, StartDate, EndDate) " +
         "Values ('@PersonId', '@Jahr', '@Name', '@Wert', '@EinnahmeHaeufigkeit','@StartDate', '@EndDate');";
     public static string UpdateEinkommen = "Update Einkommen set PersonId = '@PersonId', Jahr = '@Jahr', Name = '@Name', Wert = '@Wert', " +
         "EinnahmeHaeufigkeit = '@EinnahmeHaeufigkeit', StartDate = '@StartDate', EndDate = '@EndDate' where Id = '@Id';";
