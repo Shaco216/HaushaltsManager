@@ -1,4 +1,6 @@
-﻿namespace HaushaltsManager.Repository;
+﻿using HaushaltsManager.Model;
+
+namespace HaushaltsManager.Repository;
 
 public static class SQLStatementProvider
 {
@@ -67,10 +69,15 @@ public static class SQLStatementProvider
                                             Primary Key(Id),
                                             Foreign Key(Jahr) References Years(Jahr),
                                             Foreign Key(PersonId) References Person(Id));";
-    public static string InsertEinkommen = "Insert into Einkommen (PersonId, Jahr, Name, Wert, EinnahmeHaeufigkeit, StartDate, EndDate) " +
-        "Values ('@PersonId', '@Jahr', '@Name', '@Wert', '@EinnahmeHaeufigkeit','@StartDate', '@EndDate');";
+    public static string InsertEinkommen = "Insert into Einkommen (Id, PersonId, Jahr, Name, Wert, EinnahmeHaeufigkeit, StartDate, EndDate) " +
+        "Values ('@Id', '@PersonId', '@Jahr', '@Name', '@Wert', '@EinnahmeHaeufigkeit','@StartDate', '@EndDate');";
     public static string UpdateEinkommen = "Update Einkommen set PersonId = '@PersonId', Jahr = '@Jahr', Name = '@Name', Wert = '@Wert', " +
         "EinnahmeHaeufigkeit = '@EinnahmeHaeufigkeit', StartDate = '@StartDate', EndDate = '@EndDate' where Id = '@Id';";
+    public static string UpdateEinkommenMethod(Model.Einkommen selectedEinkommen)
+    {
+        return $@"Update Einkommen set PersonId = '{selectedEinkommen.PersonId}', Jahr = '{selectedEinkommen.Jahr}', Name = '{selectedEinkommen.Name}', Wert = '{selectedEinkommen.Wert}', 
+                EinnahmeHaeufigkeit = '{selectedEinkommen.EinnahmeHaeufigkeit}', StartDate = '{selectedEinkommen.StartDate}', EndDate = '{selectedEinkommen.EndDate}' where Id = '{selectedEinkommen.Id}';";
+    }
     public static string DeleteEinkommen = "Delete From Einkommen where Id = '@Id';";
     public static string GatherEinkommenFromPerson = "Select * from Einkommen where PersonId = @PersonId;";
 }

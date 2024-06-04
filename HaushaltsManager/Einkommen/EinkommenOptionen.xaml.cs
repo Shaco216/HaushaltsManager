@@ -40,7 +40,13 @@ namespace HaushaltsManager
         {
             if (_selectedPerson is not null)
             {
-                AddEinkommen addEinkommen = new AddEinkommen(rep, _selectedPerson);
+                long maxId = 0;
+                IEnumerable<Model.Einkommen> einkommenSelectedPerson = (IEnumerable<Model.Einkommen>)ClickedPersonToEinkommen.ItemsSource;
+                if (einkommenSelectedPerson.Count() > 0)
+                {
+                    maxId = ((IEnumerable<Model.Einkommen>)ClickedPersonToEinkommen.ItemsSource).Max(x => x.Id);
+                }
+                AddEinkommen addEinkommen = new AddEinkommen(rep, _selectedPerson, maxId);
                 addEinkommen.Title = $"Einkommen von {_selectedPerson.Vorname} {_selectedPerson.Nachname}";
                 addEinkommen.Show();
 
@@ -49,7 +55,17 @@ namespace HaushaltsManager
 
         private void UpdateEinkommen_Click(object sender, RoutedEventArgs e)
         {
-
+            if (_selectedPerson is not null)
+            {
+                //PersonId = '@PersonId', Jahr = '@Jahr', Name = '@Name', Wert = '@Wert', " +
+                //"EinnahmeHaeufigkeit = '@EinnahmeHaeufigkeit', StartDate = '@StartDate', EndDate = '@EndDate'
+                var selectedEinkommen = ClickedPersonToEinkommen.SelectedItem as Model.Einkommen;
+                string sql = SQLStatementProvider.UpdateEinkommenMethod(selectedEinkommen);
+                rep.DoNonQueryCommand(sql);
+                //rep.DoNonQueryCommand(SQLStatementProvider.UpdateEinkommen.Replace("@PersonId", _selectedPerson.Id.ToString()).Replace("@Jahr", selectedEinkommen.Jahr.ToString())
+                //    .Replace("@Name", selectedEinkommen.Name).Replace("@Wert", selectedEinkommen.Wert.ToString()).Replace("@EinnahmeHaeufigkeit", selectedEinkommen.EinnahmeHaeufigkeit.ToString())
+                //    .Replace("@StartDate", selectedEinkommen.Startdate.ToString()).Replace("@EndDate", selectedEinkommen.Enddate.ToString()));
+            }
         }
 
         private void DeleteEinkommen_Click(object sender, RoutedEventArgs e)

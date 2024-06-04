@@ -8,7 +8,7 @@
         public string Name { get; set; }
         public double Wert { get; set; }
         public EinnahmeFrequenz EinnahmeHaeufigkeit { get; set; }
-        public DateTime Startdate { get; set; }
-        public DateTime Enddate { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
     }
 }
