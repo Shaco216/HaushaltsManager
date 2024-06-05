@@ -12,12 +12,7 @@ namespace HaushaltsManager
     {
         private readonly BasicRepository rep;
         private readonly IEnumerable<Person> people;
-        private Person _selectedPerson;
-
-        public EinkommenOptionen()
-        {
-            InitializeComponent();
-        }
+        private Person? _selectedPerson;
 
         public EinkommenOptionen(BasicRepository rep, IEnumerable<Person> people)
         {
@@ -25,13 +20,14 @@ namespace HaushaltsManager
             this.rep = rep;
             this.people = people;
             LocatedPersons.ItemsSource = people;
+            _selectedPerson = null;
         }
 
         public void LoadEinkommenFromPerson()
         {
             if (LocatedPersons.SelectedItem != null)
             {
-                _selectedPerson = LocatedPersons.SelectedItem as Person;
+                _selectedPerson = (LocatedPersons.SelectedItem as Person)!;
                 ClickedPersonToEinkommen.ItemsSource = rep.DoQueryCommand<Model.Einkommen>(SQLStatementProvider.GatherEinkommenFromPerson.Replace("@PersonId", _selectedPerson.Id.ToString()));
             }
         }
@@ -55,25 +51,32 @@ namespace HaushaltsManager
 
         private void UpdateEinkommen_Click(object sender, RoutedEventArgs e)
         {
-            if (_selectedPerson is not null)
+            if (_selectedPerson is not null && ClickedPersonToEinkommen.SelectedItem is not null)
             {
-                //PersonId = '@PersonId', Jahr = '@Jahr', Name = '@Name', Wert = '@Wert', " +
-                //"EinnahmeHaeufigkeit = '@EinnahmeHaeufigkeit', StartDate = '@StartDate', EndDate = '@EndDate'
-                var selectedEinkommen = ClickedPersonToEinkommen.SelectedItem as Model.Einkommen;
-                string sql = SQLStatementProvider.UpdateEinkommenMethod(selectedEinkommen);
-                rep.DoNonQueryCommand(sql);
-                //rep.DoNonQueryCommand(SQLStatementProvider.UpdateEinkommen.Replace("@PersonId", _selectedPerson.Id.ToString()).Replace("@Jahr", selectedEinkommen.Jahr.ToString())
-                //    .Replace("@Name", selectedEinkommen.Name).Replace("@Wert", selectedEinkommen.Wert.ToString()).Replace("@EinnahmeHaeufigkeit", selectedEinkommen.EinnahmeHaeufigkeit.ToString())
-                //    .Replace("@StartDate", selectedEinkommen.Startdate.ToString()).Replace("@EndDate", selectedEinkommen.Enddate.ToString()));
+                UpdateEinkommen updateEinkommen = new UpdateEinkommen(rep, (ClickedPersonToEinkommen.SelectedItem as Model.Einkommen)!);
+                updateEinkommen.Show();
             }
         }
 
         private void DeleteEinkommen_Click(object sender, RoutedEventArgs e)
         {
-
+            if (_selectedPerson is not null && ClickedPersonToEinkommen.SelectedItem is not null)
+            {
+                Model.Einkommen selectedEinkommen = (ClickedPersonToEinkommen.SelectedItem as Model.Einkommen)!;
+                int rowsDeleted = rep.DoNonQueryCommand(SQLStatementProvider.DeleteEinkommen.Replace("@Id", selectedEinkommen.Id.ToString()));
+                if (rowsDeleted == 1)
+                {
+                    LoadEinkommenFromPerson();
+                }
+            }
         }
 
         private void LocatedPerson_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            LoadEinkommenFromPerson();
+        }
+
+        private void Reload_Click(object sender, RoutedEventArgs e)
         {
             LoadEinkommenFromPerson();
         }

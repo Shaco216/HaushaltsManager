@@ -41,11 +41,11 @@ namespace HaushaltsManager.Einkommen
                 }
                 if (StartDate.Text != string.Empty) 
                 {
-                    startDatedt += GetDateTimeString(StartDate.Text);
+                    startDatedt = GetDateTimeString(StartDate.Text);
                 }
-                //'@PersonId', '@Jahr', '@Name', '@Wert', '@EinnahmeHaeufigkeit','@StartDate', '@EndDate'
+                int einnahmeArt = (int)(EinnahmeFrequenz)Enum.Parse(typeof(EinnahmeFrequenz), EinnahmeHaeufigkeit.Text);
                 string insertsql = SQLStatementProvider.InsertEinkommen.Replace("@PersonId", person.Id.ToString())
-                    .Replace("@Jahr", EinkommenJahr.Text).Replace("@Name", EinkommenName.Text).Replace("@Wert", EinkommenWert.Text).Replace("@EinnahmeHaeufigkeit", EinnahmeHaeufigkeit.Text)
+                    .Replace("@Jahr", EinkommenJahr.Text).Replace("@Name", EinkommenName.Text).Replace("@Wert", EinkommenWert.Text).Replace("@EinnahmeHaeufigkeit", einnahmeArt.ToString())
                     .Replace("@StartDate", startDatedt).Replace("@EndDate", endDatedt).Replace("@Id",_maxId.ToString());
                 rep.DoNonQueryCommand(insertsql);
                 this.Close();

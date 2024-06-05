@@ -65,7 +65,7 @@ public static class SQLStatementProvider
     public static string GatherPerson = "Select * from Person;";
 
     public static string CreateEinkommenTable = @"Create Table if not exists 'Einkommen' 
-                                            (Id bigint AUTO_INCREMENT, PersonId int, Jahr int, Name varchar(2000), Wert float, EinnahmeHaeufigkeit Int,StartDate datetime, EndDate datetime,
+                                            (Id bigint AUTO_INCREMENT, PersonId int, Jahr int, Name varchar(2000), Wert float, EinnahmeHaeufigkeit int,StartDate datetime, EndDate datetime,
                                             Primary Key(Id),
                                             Foreign Key(Jahr) References Years(Jahr),
                                             Foreign Key(PersonId) References Person(Id));";
@@ -73,10 +73,11 @@ public static class SQLStatementProvider
         "Values ('@Id', '@PersonId', '@Jahr', '@Name', '@Wert', '@EinnahmeHaeufigkeit','@StartDate', '@EndDate');";
     public static string UpdateEinkommen = "Update Einkommen set PersonId = '@PersonId', Jahr = '@Jahr', Name = '@Name', Wert = '@Wert', " +
         "EinnahmeHaeufigkeit = '@EinnahmeHaeufigkeit', StartDate = '@StartDate', EndDate = '@EndDate' where Id = '@Id';";
-    public static string UpdateEinkommenMethod(Model.Einkommen selectedEinkommen)
+    public static string UpdateEinkommenMethod(Model.Einkommen selectedEinkommen, string starddate, string enddate)
     {
+        int einnahmeHaufigkeit = (int)selectedEinkommen.EinnahmeHaeufigkeit;
         return $@"Update Einkommen set PersonId = '{selectedEinkommen.PersonId}', Jahr = '{selectedEinkommen.Jahr}', Name = '{selectedEinkommen.Name}', Wert = '{selectedEinkommen.Wert}', 
-                EinnahmeHaeufigkeit = '{selectedEinkommen.EinnahmeHaeufigkeit}', StartDate = '{selectedEinkommen.StartDate}', EndDate = '{selectedEinkommen.EndDate}' where Id = '{selectedEinkommen.Id}';";
+                EinnahmeHaeufigkeit = '{einnahmeHaufigkeit}', StartDate = '{starddate}', EndDate = '{enddate}' where Id = '{selectedEinkommen.Id}';";
     }
     public static string DeleteEinkommen = "Delete From Einkommen where Id = '@Id';";
     public static string GatherEinkommenFromPerson = "Select * from Einkommen where PersonId = @PersonId;";

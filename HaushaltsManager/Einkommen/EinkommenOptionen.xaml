@@ -17,10 +17,12 @@
                     <ColumnDefinition Width="auto"/>
                     <ColumnDefinition Width="auto"/>
                     <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
                 </Grid.ColumnDefinitions>
                 <Button Grid.Column="0" Content="Insert Einkommen" Click="InsertEinkommen_Click" Margin="3"/>
                 <Button Grid.Column="1" Content="Update Einkommen" Click="UpdateEinkommen_Click" Margin="3"/>
                 <Button Grid.Column="2" Content="Delete Einkommen" Click="DeleteEinkommen_Click" Margin="3"/>
+                <Button Grid.Column="3" Content="Reload" Click="Reload_Click" Margin="3"/>
             </Grid>
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
@@ -29,7 +31,15 @@
                 </Grid.ColumnDefinitions>
                 <DataGrid Grid.Column="0" x:Name="LocatedPersons" AutoGenerateColumns="True" CanUserAddRows="False" CanUserDeleteRows="False" IsReadOnly="False" SelectionChanged="LocatedPerson_SelectionChanged">
                 </DataGrid>
-                <DataGrid Grid.Column="1" x:Name="ClickedPersonToEinkommen" AutoGenerateColumns="True" CanUserAddRows="False" CanUserDeleteRows="False" IsReadOnly="True">
+                <DataGrid Grid.Column="1" x:Name="ClickedPersonToEinkommen" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" IsReadOnly="True">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
+                        <DataGridTextColumn Header="Jahr" Binding="{Binding Jahr}"/>
+                        <DataGridTextColumn Header="Wert" Binding="{Binding Wert}"/>
+                        <DataGridTextColumn Header="EinnahmeHaeufigkeit" Binding="{Binding EinnahmeHaeufigkeit}"/>
+                        <DataGridTextColumn Header="StartDate" Binding="{Binding StartDate, StringFormat=dd.MM.yyyy}"/>
+                        <DataGridTextColumn Header="EndDate" Binding="{Binding EndDate, StringFormat=dd.MM.yyyy}"/>
+                    </DataGrid.Columns>
                 </DataGrid>
             </Grid>
         </Grid>
