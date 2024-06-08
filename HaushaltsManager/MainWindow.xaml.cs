@@ -3,6 +3,8 @@ using System.Windows.Controls;
 using HaushaltsManager.Repository;
 using HaushaltsManager.DBCreator;
 using HaushaltsManager.Model;
+using System.Drawing;
+using System.Windows.Media.Imaging;
 
 namespace HaushaltsManager
 {
@@ -159,6 +161,15 @@ namespace HaushaltsManager
         {
             PersonOptions personOptions = new PersonOptions(rep);
             personOptions.Show();
+        }
+
+        private void ClickedYear_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Beleg b = (ClickedYear.SelectedItem as Beleg)!;
+            if(b.Speicherpfad is not null)
+            {
+                BelegImage.Source = new BitmapImage(new Uri(b.Speicherpfad));
+            }
         }
     }
 }

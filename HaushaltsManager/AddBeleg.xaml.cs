@@ -1,9 +1,11 @@
 ﻿using HaushaltsManager.Model;
 using HaushaltsManager.Repository;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -26,13 +28,27 @@ namespace HaushaltsManager
         private readonly int highestbelegId;
         private readonly MainWindow mainWindow;
 
-        public AddBeleg()
+        private Beleg _toInsert;
+
+        public Beleg ToInsert
         {
-            InitializeComponent();
+            get { return _toInsert; }
+            set { _toInsert = value; }
         }
+
+        private bool _insertEnabled;
+
+        public bool InsertedEnabled
+        {
+            get { return _insertEnabled; }
+            set { _insertEnabled = value; }
+        }
+
         public AddBeleg(BasicRepository repo, string jahr, int highestbelegId, MainWindow mainWindow)
         {
             InitializeComponent();
+            InsertedEnabled = false;
+            ToInsert = null;
             rep = repo;
             _jahr = jahr;
             this.highestbelegId = highestbelegId++;
@@ -43,32 +59,70 @@ namespace HaushaltsManager
         private void BelegSave_Click(object sender, RoutedEventArgs e)
         {
             double betrag = Double.Parse($"{Euro.Text}.{Cent.Text}");
-            Beleg toSave = new Beleg()
+            ToInsert = new Beleg()
             {
                 Id = highestbelegId,
                 Jahr = Convert.ToInt32(_jahr),
                 Name = BelegName.Text,
                 Beschreibung = BelegBeschreibung.Text,
                 KategorieId = ((Kategorie)KategoriePicker.SelectedItem).Id,
-                Datum = ((DateTime)Datum.SelectedDate).ToString(),
-                Betrag = betrag
+                Datum = ((DateTime)Datum.SelectedDate!).ToString(),
+                Betrag = betrag,
+                Speicherpfad = TextImagePfad.Text
+
             };
-            string sql = SQLStatementProvider.InsertBeleg
-                .Replace("@Id", toSave.Id.ToString())
-                .Replace("@Jahr", toSave.Jahr.ToString())
-                .Replace("@Name", toSave.Name)
-                .Replace("@Beschreibung", toSave.Beschreibung)
-                .Replace("@Datum", toSave.Datum)
-                .Replace("@KategorieId", toSave.KategorieId.ToString())
-                .Replace("@Betrag", toSave.Betrag.ToString());
-            rep.DoNonQueryCommand(sql);
-            mainWindow.LoadBeleg();
-            this.Close();
+            string sql = SQLStatementProvider.InsertBelege(ToInsert.Id, ToInsert.Jahr, ToInsert.Name, ToInsert.Beschreibung, ToInsert.Datum, ToInsert.KategorieId, ToInsert.Betrag, ToInsert.Speicherpfad);
+            string sql1 = SQLStatementProvider.InsertBeleg
+                .Replace("@Id", ToInsert.Id.ToString())
+                .Replace("@Jahr", ToInsert.Jahr.ToString())
+                .Replace("@Name", ToInsert.Name)
+                .Replace("@Beschreibung", ToInsert.Beschreibung)
+                .Replace("@Datum", ToInsert.Datum)
+                .Replace("@KategorieId", ToInsert.KategorieId.ToString())
+                .Replace("@Betrag", ToInsert.Betrag.ToString())
+                .Replace("@Speicherpfad", ToInsert.Speicherpfad!.ToString());
+            InsertedEnabled = CheckIfAllDateSet();
+            if (InsertedEnabled)
+            {
+                rep.DoNonQueryCommand(sql1);
+                mainWindow.LoadBeleg();
+                this.Close();
+            }
         }
 
         private void BelegCancel_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+
+        private void BelegImageSave_Click(object sender, RoutedEventArgs e)
+        {
+            var openFileDialog = new OpenFileDialog();
+            bool? haveFileName = openFileDialog.ShowDialog();
+            string fileName = string.Empty;
+            if (haveFileName is true)
+            {
+                fileName = openFileDialog.FileName;
+                TextImagePfad.Text = fileName;
+                ToInsert.Speicherpfad = fileName;
+            }
+        }
+
+        private bool CheckIfAllDateSet()
+        {
+            string regexDate = @"\d\d\.\d\d\.\d{4}";
+            Regex reg = new Regex(regexDate);
+            bool insertedEnabled = false;
+            if (ToInsert is not null && ToInsert.Id != 0 && ToInsert.Name != string.Empty && reg.IsMatch(ToInsert.Datum) && ToInsert.Betrag > 0.0 && ToInsert.Jahr != 0 && ToInsert.KategorieId != 0)
+            {
+                insertedEnabled = true;
+            }
+            return insertedEnabled;
+        }
+
+        private void CheckIfAllIsInserted(object sender, RoutedEventArgs e)
+        {
+            InsertedEnabled = CheckIfAllDateSet();
         }
     }
 }

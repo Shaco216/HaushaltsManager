@@ -16,6 +16,7 @@
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
         </Grid.ColumnDefinitions>
         <Grid Grid.Column="1" Grid.Row="0">
             <Grid.RowDefinitions>
@@ -25,7 +26,7 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
             <Label Content="Belegname:" Grid.Row="0"/>
-            <TextBox x:Name="BelegName" Grid.Row="1"/>
+            <TextBox x:Name="BelegName" Grid.Row="1" TextChanged="CheckIfAllIsInserted"/>
             <Label Content="Belegbeschreibung:" Grid.Row="2"/>
             <TextBox x:Name="BelegBeschreibung" Grid.Row="3"/>
         </Grid>
@@ -37,7 +38,7 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
             <Label Content="Datum:" Grid.Row="0"/>
-            <DatePicker x:Name="Datum" Grid.Row="1"/>
+            <DatePicker x:Name="Datum" Grid.Row="1" SelectedDateChanged="CheckIfAllIsInserted"/>
             <Grid Grid.Row="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto"/>
@@ -49,8 +50,8 @@
                 </Grid.RowDefinitions>
                 <Label Content="Euro/Dollar:" Grid.Row="0" Grid.Column="0"/>
                 <Label Content="Cent:" Grid.Row="0" Grid.Column="1"/>
-                <TextBox x:Name="Euro" Grid.Row="1" Grid.Column="0"/>
-                <TextBox x:Name="Cent" Grid.Row="1" Grid.Column="1"/>
+                <TextBox x:Name="Euro" Grid.Row="1" Grid.Column="0" TextChanged="CheckIfAllIsInserted"/>
+                <TextBox x:Name="Cent" Grid.Row="1" Grid.Column="1" TextChanged="CheckIfAllIsInserted"/>
             </Grid>
         </Grid>
         <Grid Grid.Column="3" Grid.Row="0">
@@ -58,8 +59,16 @@
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-        <Label Content="Kategorie:" Grid.Column="0" />
-        <ComboBox x:Name="KategoriePicker" Grid.Column="1" DisplayMemberPath="Name"/>
+            <Label Content="Kategorie:" Grid.Column="0" />
+            <ComboBox x:Name="KategoriePicker" Grid.Column="1" DisplayMemberPath="Name" SelectionChanged="CheckIfAllIsInserted"/>
+        </Grid>
+        <Grid Grid.Row="0" Grid.Column="4">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <Button x:Name="ImageSaveButton" Click="BelegImageSave_Click" Margin="3,3,3,0" Height="20" Grid.Row="0" Content="Image laden"/>
+            <TextBox x:Name="TextImagePfad" Text="ImagePfad" Grid.Row="1" TextChanged="CheckIfAllIsInserted"/>
         </Grid>
         <Button x:Name="BelegSave" Grid.Column="1" Grid.Row="1" Content="Beleg sichern" Click="BelegSave_Click" Margin="3,3,3,0" Height="20" VerticalAlignment="Top"/>
         <Button x:Name="BelegCancel" Grid.Column="2" Grid.Row="1" Content="Abbrechen" Click="BelegCancel_Click" Margin="3,3,3,0" Height="20" VerticalAlignment="Top"/>
