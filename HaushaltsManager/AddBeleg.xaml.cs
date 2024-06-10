@@ -3,6 +3,7 @@ using HaushaltsManager.Repository;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -27,6 +28,7 @@ namespace HaushaltsManager
         private readonly string _jahr;
         private readonly int highestbelegId;
         private readonly MainWindow mainWindow;
+        static private string _path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
         private Beleg _toInsert;
 
@@ -56,6 +58,25 @@ namespace HaushaltsManager
             KategoriePicker.ItemsSource = rep.DoQueryCommand<Kategorie>(SQLStatementProvider.GatherKategories);
         }
 
+        private string SaveInBelegFolder(string path)
+        {
+            string fileName = path.Split("/").Last();
+            string newPath = @$"{_path}\Belege";
+            if (!Directory.Exists(newPath))
+            {
+                Directory.CreateDirectory(newPath);
+            }
+            string date = DateTime.Now.ToString().Replace("-", "_").Replace(":", "_");
+            string newPathWithFile = $@"{_path}\{date}_{fileName}";
+            if (!File.Exists(newPathWithFile))
+            {
+                File.Create(newPathWithFile).Dispose();
+                return newPathWithFile;
+                //Messenger.Send(new SetupDatabaseMessage());
+            }
+            return string.Empty;
+        }
+
         private void BelegSave_Click(object sender, RoutedEventArgs e)
         {
             double betrag = Double.Parse($"{Euro.Text}.{Cent.Text}");
@@ -71,22 +92,26 @@ namespace HaushaltsManager
                 Speicherpfad = TextImagePfad.Text
 
             };
-            string sql = SQLStatementProvider.InsertBelege(ToInsert.Id, ToInsert.Jahr, ToInsert.Name, ToInsert.Beschreibung, ToInsert.Datum, ToInsert.KategorieId, ToInsert.Betrag, ToInsert.Speicherpfad);
-            string sql1 = SQLStatementProvider.InsertBeleg
-                .Replace("@Id", ToInsert.Id.ToString())
-                .Replace("@Jahr", ToInsert.Jahr.ToString())
-                .Replace("@Name", ToInsert.Name)
-                .Replace("@Beschreibung", ToInsert.Beschreibung)
-                .Replace("@Datum", ToInsert.Datum)
-                .Replace("@KategorieId", ToInsert.KategorieId.ToString())
-                .Replace("@Betrag", ToInsert.Betrag.ToString())
-                .Replace("@Speicherpfad", ToInsert.Speicherpfad!.ToString());
-            InsertedEnabled = CheckIfAllDateSet();
-            if (InsertedEnabled)
+            ToInsert.Speicherpfad = SaveInBelegFolder(TextImagePfad.Text);
+            if (ToInsert.Speicherpfad != string.Empty)
             {
-                rep.DoNonQueryCommand(sql1);
-                mainWindow.LoadBeleg();
-                this.Close();
+                string sql = SQLStatementProvider.InsertBelege(ToInsert.Id, ToInsert.Jahr, ToInsert.Name, ToInsert.Beschreibung, ToInsert.Datum, ToInsert.KategorieId, ToInsert.Betrag, ToInsert.Speicherpfad);
+                string sql1 = SQLStatementProvider.InsertBeleg
+                    .Replace("@Id", ToInsert.Id.ToString())
+                    .Replace("@Jahr", ToInsert.Jahr.ToString())
+                    .Replace("@Name", ToInsert.Name)
+                    .Replace("@Beschreibung", ToInsert.Beschreibung)
+                    .Replace("@Datum", ToInsert.Datum)
+                    .Replace("@KategorieId", ToInsert.KategorieId.ToString())
+                    .Replace("@Betrag", ToInsert.Betrag.ToString())
+                    .Replace("@Speicherpfad", ToInsert.Speicherpfad!.ToString());
+                InsertedEnabled = CheckIfAllDateSet();
+                if (InsertedEnabled)
+                {
+                    rep.DoNonQueryCommand(sql1);
+                    mainWindow.LoadBeleg();
+                    this.Close();
+                }
             }
         }
 
@@ -99,7 +124,7 @@ namespace HaushaltsManager
         {
             var openFileDialog = new OpenFileDialog();
             bool? haveFileName = openFileDialog.ShowDialog();
-            string fileName = string.Empty;
+            string fileName = openFileDialog.FileName;
             if (haveFileName is true)
             {
                 fileName = openFileDialog.FileName;
