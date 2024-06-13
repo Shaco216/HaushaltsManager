@@ -26,7 +26,7 @@ namespace HaushaltsManager
     {
         private readonly BasicRepository rep;
         private readonly string _jahr;
-        private readonly int highestbelegId;
+        private readonly int _highestbelegId;
         private readonly MainWindow mainWindow;
         static private string _path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
@@ -50,27 +50,27 @@ namespace HaushaltsManager
         {
             InitializeComponent();
             InsertedEnabled = false;
-            ToInsert = null;
+            ToInsert = new();
             rep = repo;
             _jahr = jahr;
-            this.highestbelegId = highestbelegId++;
+            _highestbelegId = ++highestbelegId;
             this.mainWindow = mainWindow;
             KategoriePicker.ItemsSource = rep.DoQueryCommand<Kategorie>(SQLStatementProvider.GatherKategories);
         }
 
         private string SaveInBelegFolder(string path)
         {
-            string fileName = path.Split("/").Last();
-            string newPath = @$"{_path}\Belege";
+            string fileName = path.Split(@"\").Last();
+            string newPath = @$"{_path}\DBFiles\Belege";
             if (!Directory.Exists(newPath))
             {
                 Directory.CreateDirectory(newPath);
             }
-            string date = DateTime.Now.ToString().Replace("-", "_").Replace(":", "_");
-            string newPathWithFile = $@"{_path}\{date}_{fileName}";
+            string date = DateTime.Now.ToString().Replace("-", "_").Replace(":", "_").Replace(".","_").Replace(" ","_");
+            string newPathWithFile = $@"{newPath}\{date}_{fileName}";
             if (!File.Exists(newPathWithFile))
             {
-                File.Create(newPathWithFile).Dispose();
+                //File.Create(newPathWithFile).Dispose();
                 return newPathWithFile;
                 //Messenger.Send(new SetupDatabaseMessage());
             }
@@ -80,18 +80,15 @@ namespace HaushaltsManager
         private void BelegSave_Click(object sender, RoutedEventArgs e)
         {
             double betrag = Double.Parse($"{Euro.Text}.{Cent.Text}");
-            ToInsert = new Beleg()
-            {
-                Id = highestbelegId,
-                Jahr = Convert.ToInt32(_jahr),
-                Name = BelegName.Text,
-                Beschreibung = BelegBeschreibung.Text,
-                KategorieId = ((Kategorie)KategoriePicker.SelectedItem).Id,
-                Datum = ((DateTime)Datum.SelectedDate!).ToString(),
-                Betrag = betrag,
-                Speicherpfad = TextImagePfad.Text
 
-            };
+            ToInsert.Id = _highestbelegId;
+            ToInsert.Jahr = Convert.ToInt32(_jahr);
+            ToInsert.Name = BelegName.Text;
+            ToInsert.Beschreibung = BelegBeschreibung.Text;
+            ToInsert.KategorieId = ((Kategorie)KategoriePicker.SelectedItem).Id;
+            ToInsert.Datum = ((DateTime)Datum.SelectedDate!).ToString();
+            ToInsert.Betrag = betrag;
+            //ToInsert.Speicherpfad = TextImagePfad.Text;
             ToInsert.Speicherpfad = SaveInBelegFolder(TextImagePfad.Text);
             if (ToInsert.Speicherpfad != string.Empty)
             {
@@ -109,6 +106,7 @@ namespace HaushaltsManager
                 if (InsertedEnabled)
                 {
                     rep.DoNonQueryCommand(sql1);
+                    File.Copy(TextImagePfad.Text, ToInsert.Speicherpfad.ToString(), false);
                     mainWindow.LoadBeleg();
                     this.Close();
                 }

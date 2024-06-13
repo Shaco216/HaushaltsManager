@@ -43,7 +43,7 @@ public static class SQLStatementProvider
         "Beschreibung," +
         "Datum," +
         "KategorieId," +
-        "Betrag" +
+        "Betrag," +
         "Speicherpfad" +
         ") Values ('@Id','@Jahr','@Name','@Beschreibung','@Datum','@KategorieId','@Betrag','@Speicherpfad');";
     public static string InsertBelege(int id, int jahr, string name, string beschreibung, string datum, int kategorieId, double betrag, string speicherpfad)
@@ -56,7 +56,7 @@ public static class SQLStatementProvider
         Beschreibung,
         Datum,
         KategorieId,
-        Betrag
+        Betrag,
         Speicherpfad
         ) Values ('{id}','{jahr}','{name}','{beschreibung}','{datum}','{kategorieId}','{betrag}','{speicherpfad}');";
         return insertbelegsql;
@@ -67,7 +67,7 @@ public static class SQLStatementProvider
         "Beschreibung = '@Beschreibung'," +
         "Datum = '@Datum'," +
         "KategorieId = '@KategorieId'," +
-        "Betrag = '@Betrag'" +
+        "Betrag = '@Betrag'," +
         "Speicherpfad = '@Speicherpfad'" +
         "Where Id = '@Id';";
     public static string UpdateBelege(int id, int jahr, string name, string beschreibung, string datum, int kategorieId, float betrag, string speicherpfad)
@@ -78,7 +78,7 @@ public static class SQLStatementProvider
         Beschreibung = '{beschreibung}',
         Datum = '{datum}',
         KategorieId = '{kategorieId}',
-        Betrag = '{betrag}'
+        Betrag = '{betrag}',
         Speicherpfad = '{speicherpfad}'
         Where Id = '{id}';";
         return updatesql;
