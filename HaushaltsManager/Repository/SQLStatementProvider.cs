@@ -14,25 +14,10 @@ public static class SQLStatementProvider
                     $"KategorieId Int, " +
                     $"Betrag float, " +
                     $"Speicherpfad varchar(2000)," +
+                    $"PersonId Int," +
                     $"Primary Key(Id)," +
                     $"Foreign Key(Jahr) References Years(Jahr)," +
                     $"Foreign Key(KategorieId) References Kategorien(Id));";
-    public static string CreateTable(int jahr, string name, string beschreibung, string datum, int kategorieId, float betrag, string speicherpfad)
-    {
-        string belegtable = @$"Create Table if not exists 'Belege' 
-                    (Id BigInt AUTO_INCREMENT,
-                    {jahr} Int, 
-                    {name} varchar(255), 
-                    {beschreibung} varchar(2000), 
-                    {datum} varchar(255), 
-                    {kategorieId} Int, 
-                    {betrag} float, 
-                    {speicherpfad} varchar(2000),
-                    Primary Key(Id),
-                    Foreign Key(Jahr) References Years(Jahr),
-                    Foreign Key(KategorieId) References Kategorien(Id))";
-        return belegtable;
-    }
     public static string SelectBelegeFromYear = @"Select * from Belege where Jahr = '@Year';";
     public static string SelectBelegeFromKategorieId = "Select * from Belege where KategorieId = '@KategorieId';";
     public static string InsertBeleg = "Insert Into Belege " +
@@ -44,9 +29,10 @@ public static class SQLStatementProvider
         "Datum," +
         "KategorieId," +
         "Betrag," +
-        "Speicherpfad" +
-        ") Values ('@Id','@Jahr','@Name','@Beschreibung','@Datum','@KategorieId','@Betrag','@Speicherpfad');";
-    public static string InsertBelege(int id, int jahr, string name, string beschreibung, string datum, int kategorieId, double betrag, string speicherpfad)
+        "Speicherpfad," +
+        "PersonId" +
+        ") Values ('@Id','@Jahr','@Name','@Beschreibung','@Datum','@KategorieId','@Betrag','@Speicherpfad','@PersonId');";
+    public static string InsertBelege(int id, int jahr, string name, string beschreibung, string datum, int kategorieId, double betrag, string speicherpfad, int personId)
     {
         string insertbelegsql = @$"Insert Into Belege 
         (
@@ -57,8 +43,9 @@ public static class SQLStatementProvider
         Datum,
         KategorieId,
         Betrag,
-        Speicherpfad
-        ) Values ('{id}','{jahr}','{name}','{beschreibung}','{datum}','{kategorieId}','{betrag}','{speicherpfad}');";
+        Speicherpfad,
+        PersonId
+        ) Values ('{id}','{jahr}','{name}','{beschreibung}','{datum}','{kategorieId}','{betrag}','{speicherpfad}','{personId}');";
         return insertbelegsql;
     }
     public static string UpdateBeleg = "Update Belege set " +
@@ -69,8 +56,9 @@ public static class SQLStatementProvider
         "KategorieId = '@KategorieId'," +
         "Betrag = '@Betrag'," +
         "Speicherpfad = '@Speicherpfad'" +
+        "PersonId = '@PersonId'" +
         "Where Id = '@Id';";
-    public static string UpdateBelege(int id, int jahr, string name, string beschreibung, string datum, int kategorieId, float betrag, string speicherpfad)
+    public static string UpdateBelege(int id, int jahr, string name, string beschreibung, string datum, int kategorieId, float betrag, string speicherpfad, int personId)
     {
         string updatesql = @$"Update Belege set
         Jahr = '{jahr}',
@@ -80,6 +68,7 @@ public static class SQLStatementProvider
         KategorieId = '{kategorieId}',
         Betrag = '{betrag}',
         Speicherpfad = '{speicherpfad}'
+        PersonId = '{personId}'
         Where Id = '{id}';";
         return updatesql;
     }

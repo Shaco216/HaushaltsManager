@@ -10,5 +10,6 @@ public class Beleg
     public string? Beschreibung { get; set; }
     public int Jahr {  get; set; }
     public string? Speicherpfad { get; set; }
+    public int PersonId { get; set; }
 
 }

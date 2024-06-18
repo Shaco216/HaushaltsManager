@@ -56,6 +56,7 @@ namespace HaushaltsManager
             _highestbelegId = ++highestbelegId;
             this.mainWindow = mainWindow;
             KategoriePicker.ItemsSource = rep.DoQueryCommand<Kategorie>(SQLStatementProvider.GatherKategories);
+            PersonPicker.ItemsSource = rep.DoQueryCommand<Person>(SQLStatementProvider.GatherPerson);
         }
 
         private string SaveInBelegFolder(string path)
@@ -88,11 +89,12 @@ namespace HaushaltsManager
             ToInsert.KategorieId = ((Kategorie)KategoriePicker.SelectedItem).Id;
             ToInsert.Datum = ((DateTime)Datum.SelectedDate!).ToString();
             ToInsert.Betrag = betrag;
+            ToInsert.PersonId = ((Person)PersonPicker.SelectedItem).Id;
             //ToInsert.Speicherpfad = TextImagePfad.Text;
             ToInsert.Speicherpfad = SaveInBelegFolder(TextImagePfad.Text);
             if (ToInsert.Speicherpfad != string.Empty)
             {
-                string sql = SQLStatementProvider.InsertBelege(ToInsert.Id, ToInsert.Jahr, ToInsert.Name, ToInsert.Beschreibung, ToInsert.Datum, ToInsert.KategorieId, ToInsert.Betrag, ToInsert.Speicherpfad);
+                //string sql = SQLStatementProvider.InsertBelege(ToInsert.Id, ToInsert.Jahr, ToInsert.Name, ToInsert.Beschreibung, ToInsert.Datum, ToInsert.KategorieId, ToInsert.Betrag, ToInsert.Speicherpfad, ToInsert.PersonId);
                 string sql1 = SQLStatementProvider.InsertBeleg
                     .Replace("@Id", ToInsert.Id.ToString())
                     .Replace("@Jahr", ToInsert.Jahr.ToString())
@@ -101,7 +103,8 @@ namespace HaushaltsManager
                     .Replace("@Datum", ToInsert.Datum)
                     .Replace("@KategorieId", ToInsert.KategorieId.ToString())
                     .Replace("@Betrag", ToInsert.Betrag.ToString())
-                    .Replace("@Speicherpfad", ToInsert.Speicherpfad!.ToString());
+                    .Replace("@Speicherpfad", ToInsert.Speicherpfad!.ToString())
+                    .Replace("@PersonId", ToInsert.PersonId!.ToString());
                 InsertedEnabled = CheckIfAllDateSet();
                 if (InsertedEnabled)
                 {
