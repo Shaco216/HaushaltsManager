@@ -55,6 +55,7 @@
                             <DataGridTextColumn x:Name="KategorieColumn" Header="Kategorie" Binding="{Binding Kategorie}"/>
                             <DataGridTextColumn x:Name="BeschreibungColumn" Header="Beschreibung" Binding="{Binding Beschreibung}"/>
                             <DataGridTextColumn x:Name="PersonColumn" Header="Person" Binding="{Binding Person}"/>
+                            <DataGridTextColumn x:Name="SpeicherpfadColumn" Header="Speicherpfad" Binding="{Binding Speicherpfad}"/>
                         </DataGrid.Columns>
                     </DataGrid>
                     <!--<DataGrid Grid.Column="1" x:Name="ClickedYear" AutoGenerateColumns="True" CanUserAddRows="False" CanUserDeleteRows="False" SelectionChanged="ClickedYear_SelectionChanged">
