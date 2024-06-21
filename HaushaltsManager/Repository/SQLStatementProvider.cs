@@ -93,12 +93,14 @@ public static class SQLStatementProvider
     public static string GatherKategories = "Select * from Kategorien;";
     public static string UpdateKategorie = @"Update Kategorien set Name = '@KategorieName', Beschreibung = '@Beschreibung' where Id = '@Id';";
     public static string DeleteKategorie = @"Delete From Kategorien where Id = '@Id'";
+    public static string GatherKategorieById(int id) { return $"Select * from Kategorien where Id = {id};"; }
 
     public static string CreatePersonTable = "Create Table if not exists 'Person' (Id int, Vorname varchar(100), Nachname varchar(100), Primary Key(Id));";
     public static string InsertPerson = "Insert into Person (Id,Vorname,Nachname) values ('@Id','@Vorname','@Nachname');";
     public static string UpdatePerson = "Update Person set Vorname = '@Vorname', Nachname = '@Nachname' Where Id = '@Id';";
     public static string DeletePerson = "Delete From Person Where Id = '@Id';";
     public static string GatherPerson = "Select * from Person;";
+    public static string GatherPersonbyId(int id) { return $"Select * from Person where Id = {id};"; }
 
     public static string CreateEinkommenTable = @"Create Table if not exists 'Einkommen' 
                                             (Id bigint AUTO_INCREMENT, PersonId int, Jahr int, Name varchar(2000), Wert float, EinnahmeHaeufigkeit int,StartDate datetime, EndDate datetime,

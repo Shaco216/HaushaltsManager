@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HaushaltsManager"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="900" Width="1600">
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File"></MenuItem>
@@ -48,8 +48,17 @@
                     </Grid.ColumnDefinitions>
                     <DataGrid Grid.Column="0" x:Name="LocatedYears" AutoGenerateColumns="True" CanUserAddRows="False" CanUserDeleteRows="False" IsReadOnly="True" SelectionChanged="LocatedYears_SelectionChanged">
                     </DataGrid>
-                    <DataGrid Grid.Column="1" x:Name="ClickedYear" AutoGenerateColumns="True" CanUserAddRows="False" CanUserDeleteRows="False" SelectionChanged="ClickedYear_SelectionChanged">
+                    <DataGrid Grid.Column="1" x:Name="ClickedYear" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" SelectionChanged="ClickedYear_SelectionChanged">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn x:Name="BetragColumn" Header="Betrag" Binding="{Binding Betrag}"/>
+                            <DataGridTextColumn x:Name="DatumColumn" Header="Datum" Binding="{Binding Datum}"/>
+                            <DataGridTextColumn x:Name="KategorieColumn" Header="Kategorie" Binding="{Binding Kategorie}"/>
+                            <DataGridTextColumn x:Name="BeschreibungColumn" Header="Beschreibung" Binding="{Binding Beschreibung}"/>
+                            <DataGridTextColumn x:Name="PersonColumn" Header="Person" Binding="{Binding Person}"/>
+                        </DataGrid.Columns>
                     </DataGrid>
+                    <!--<DataGrid Grid.Column="1" x:Name="ClickedYear" AutoGenerateColumns="True" CanUserAddRows="False" CanUserDeleteRows="False" SelectionChanged="ClickedYear_SelectionChanged">
+                    </DataGrid>-->
                     <StackPanel Grid.Column="2">
                         <Label Content="Beleg:" Background="LightGray"/>
                         <Image x:Name="BelegImage" />

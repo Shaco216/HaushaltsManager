@@ -62,7 +62,7 @@ namespace HaushaltsManager
         private string SaveInBelegFolder(string path)
         {
             string fileName = path.Split(@"\").Last();
-            string newPath = @$"{_path}\DBFiles\Belege";
+            string newPath = @$"{_path}\Haushaltsmanager\Belege";
             if (!Directory.Exists(newPath))
             {
                 Directory.CreateDirectory(newPath);
@@ -80,15 +80,13 @@ namespace HaushaltsManager
 
         private void BelegSave_Click(object sender, RoutedEventArgs e)
         {
-            double betrag = Double.Parse($"{Euro.Text}.{Cent.Text}");
-
             ToInsert.Id = _highestbelegId;
             ToInsert.Jahr = Convert.ToInt32(_jahr);
             ToInsert.Name = BelegName.Text;
             ToInsert.Beschreibung = BelegBeschreibung.Text;
             ToInsert.KategorieId = ((Kategorie)KategoriePicker.SelectedItem).Id;
             ToInsert.Datum = ((DateTime)Datum.SelectedDate!).ToString();
-            ToInsert.Betrag = betrag;
+            ToInsert.Betrag = $"{Euro.Text}.{Cent.Text}";
             ToInsert.PersonId = ((Person)PersonPicker.SelectedItem).Id;
             //ToInsert.Speicherpfad = TextImagePfad.Text;
             ToInsert.Speicherpfad = SaveInBelegFolder(TextImagePfad.Text);
@@ -139,7 +137,7 @@ namespace HaushaltsManager
             string regexDate = @"\d\d\.\d\d\.\d{4}";
             Regex reg = new Regex(regexDate);
             bool insertedEnabled = false;
-            if (ToInsert is not null && ToInsert.Id != 0 && ToInsert.Name != string.Empty && reg.IsMatch(ToInsert.Datum) && ToInsert.Betrag > 0.0 && ToInsert.Jahr != 0 && ToInsert.KategorieId != 0)
+            if (ToInsert is not null && ToInsert.Id != 0 && ToInsert.Name != string.Empty && reg.IsMatch(ToInsert.Datum) && ToInsert.BetragNum > 0.0 && ToInsert.Jahr != 0 && ToInsert.KategorieId != 0)
             {
                 insertedEnabled = true;
             }

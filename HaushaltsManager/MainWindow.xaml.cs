@@ -15,7 +15,7 @@ namespace HaushaltsManager
     {
         DBCreator.DBCreator creator;
         const string filename = @"\Years";
-        const string lastFilename = @"\DBFiles";
+        const string lastFilename = @"\Haushaltsmanager";
         const string filetype = "db";
         BasicRepository rep;
         IEnumerable<Beleg> _belege;
@@ -146,7 +146,17 @@ namespace HaushaltsManager
                 Year selectedYear = LocatedYears.SelectedItem as Year;
                 string sql = SQLStatementProvider.SelectBelegeFromYear
                 .Replace("@Year", selectedYear.Jahr.ToString());
+                string pdk = $"Select Betrag from Belege where Jahr = 2002;";
+                var t = rep.DoQueryCommand<float>(pdk);
                 IEnumerable<Beleg> belege = rep.DoQueryCommand<Beleg>(sql);
+                foreach(Beleg beleg in belege)
+                {
+                    Kategorie k = rep.DoQueryCommand<Kategorie>(SQLStatementProvider.GatherKategorieById(beleg.KategorieId)).First();
+                    beleg.Kategorie = k.Name;
+
+                    Person p = rep.DoQueryCommand<Person>(SQLStatementProvider.GatherPersonbyId(beleg.PersonId)).First();
+                    beleg.Person = p.FullName;
+                }
                 ClickedYear.ItemsSource = belege;
                 _belege = belege;
             }
