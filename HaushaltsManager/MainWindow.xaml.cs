@@ -113,10 +113,15 @@ namespace HaushaltsManager
             {
                 Year selectedYear = LocatedYears.SelectedItem as Year;
                 Beleg selectedBeleg = ClickedYear.SelectedItem as Beleg;
-                string sqlcmd = SQLStatementProvider.UpdateBeleg.Replace("@Jahr", selectedYear.Jahr.ToString()).Replace("@Name", selectedBeleg.Name).Replace("@Beschreibung", selectedBeleg.Beschreibung)
-                    .Replace("@Datum", selectedBeleg.Datum.ToString()).Replace("@Betrag", selectedBeleg.Betrag.ToString()).Replace("@Id", selectedBeleg.Id.ToString())
-                    .Replace("@KategorieId", selectedBeleg.KategorieId.ToString());
-                rep.DoNonQueryCommand(sqlcmd);
+                //string sqlcmd = SQLStatementProvider.UpdateBeleg.Replace("@Jahr", selectedYear.Jahr.ToString()).Replace("@Name", selectedBeleg.Name).Replace("@Beschreibung", selectedBeleg.Beschreibung)
+                //    .Replace("@Datum", selectedBeleg.Datum.ToString()).Replace("@Betrag", selectedBeleg.Betrag.ToString()).Replace("@Id", selectedBeleg.Id.ToString())
+                //    .Replace("@KategorieId", selectedBeleg.KategorieId.ToString());
+                //rep.DoNonQueryCommand(sqlcmd);
+                if (selectedBeleg is not null)
+                {
+                    UpdateBeleg updateBeleg = new(selectedBeleg, rep);
+                    updateBeleg.Show();
+                }
                 LoadBeleg();
             }
         }
@@ -175,10 +180,14 @@ namespace HaushaltsManager
 
         private void ClickedYear_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Beleg b = (ClickedYear.SelectedItem as Beleg)!;
-            if(b.Speicherpfad is not null)
+            if (ClickedYear is not null && ClickedYear.SelectedItem is not null)
             {
-                BelegImage.Source = new BitmapImage(new Uri(b.Speicherpfad));
+
+                Beleg b = (ClickedYear.SelectedItem as Beleg)!;
+                if (b.Speicherpfad is not null)
+                {
+                    BelegImage.Source = new BitmapImage(new Uri(b.Speicherpfad));
+                }
             }
         }
     }

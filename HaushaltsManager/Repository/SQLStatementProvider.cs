@@ -58,7 +58,7 @@ public static class SQLStatementProvider
         "Speicherpfad = '@Speicherpfad'" +
         "PersonId = '@PersonId'" +
         "Where Id = '@Id';";
-    public static string UpdateBelege(int id, int jahr, string name, string beschreibung, string datum, int kategorieId, float betrag, string speicherpfad, int personId)
+    public static string UpdateBelege(int id, int jahr, string name, string beschreibung, string datum, int kategorieId, string betrag, string speicherpfad, int personId)
     {
         string updatesql = @$"Update Belege set
         Jahr = '{jahr}',

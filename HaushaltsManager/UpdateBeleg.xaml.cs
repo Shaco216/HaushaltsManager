@@ -54,13 +54,15 @@ namespace HaushaltsManager
             _rep = rep;
             BelegName.Text = beleg.Name;
             BelegBeschreibung.Text = beleg.Beschreibung;
-            Euro.Text = beleg.BetragNum.ToString().Split('.').First();
-            Cent.Text = beleg.BetragNum.ToString().Split('.').Last();
+            Euro.Text = beleg.Betrag.Split('.').First();
+            Cent.Text = beleg.Betrag.Split('.').Last();
             Datum.Text = beleg.Datum.ToString();
             KategoriePicker.ItemsSource = rep.DoQueryCommand<Kategorie>(SQLStatementProvider.GatherKategories);
             PersonPicker.ItemsSource = rep.DoQueryCommand<Person>(SQLStatementProvider.GatherPerson);
-            KategoriePicker.SelectedItem = rep.DoQueryCommand<Kategorie>(SQLStatementProvider.GatherKategorieById(beleg.KategorieId));
-            PersonPicker.SelectedItem = rep.DoQueryCommand<Person>(SQLStatementProvider.GatherPersonbyId(beleg.PersonId));
+
+            KategoriePicker.SelectedItem = ((IEnumerable<Kategorie>)KategoriePicker.ItemsSource).FirstOrDefault(x => x.Id == beleg.KategorieId);
+            PersonPicker.SelectedItem = ((IEnumerable<Person>)PersonPicker.ItemsSource).FirstOrDefault(x=>x.Id == beleg.PersonId);
+
             TextImagePfad.Text = beleg.Speicherpfad;
             _fromDB = beleg;
         }
@@ -121,12 +123,16 @@ namespace HaushaltsManager
         {
             string betrag = $"{Euro.Text}.{Cent.Text}";
             int rowsChanged = _rep.DoNonQueryCommand(
-                SQLStatementProvider.UpdateBelege(_fromDB.Id,_fromDB.Jahr, BelegName.Text, BelegBeschreibung.Text, BelegDatum.Text, KategoriePicker.Text, betrag, TextImagePfad.Text, PersonPicker.Text));
-            if(rowsChanged == 1 && _fromDB.Speicherpfad.Equals(TextImagePfad.Text) is false)
+                SQLStatementProvider.UpdateBelege(_fromDB.Id,_fromDB.Jahr, BelegName.Text, BelegBeschreibung.Text, Datum.Text, ((Kategorie)KategoriePicker.SelectedItem).Id, betrag, TextImagePfad.Text, ((Person)PersonPicker.SelectedItem).Id));
+            if(rowsChanged == 1 && _fromDB.Speicherpfad!.Equals(TextImagePfad.Text) is false)
             {
                 File.Delete(_fromDB.Speicherpfad);
                 string saveDirectoryPath = SaveInBelegFolder(TextImagePfad.Text);
                 File.Copy(TextImagePfad.Text, saveDirectoryPath, false);
+            }
+            if(rowsChanged == 0)
+            {
+                return;
             }
         }
     }
