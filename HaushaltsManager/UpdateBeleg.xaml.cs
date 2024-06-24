@@ -3,6 +3,7 @@ using HaushaltsManager.Repository;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -29,6 +30,7 @@ namespace HaushaltsManager
         private readonly int _highestbelegId;
         private readonly MainWindow mainWindow;
         static private string _path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+        private Beleg _fromDB;
 
         private Beleg _toInsert;
 
@@ -60,6 +62,7 @@ namespace HaushaltsManager
             KategoriePicker.SelectedItem = rep.DoQueryCommand<Kategorie>(SQLStatementProvider.GatherKategorieById(beleg.KategorieId));
             PersonPicker.SelectedItem = rep.DoQueryCommand<Person>(SQLStatementProvider.GatherPersonbyId(beleg.PersonId));
             TextImagePfad.Text = beleg.Speicherpfad;
+            _fromDB = beleg;
         }
 
         private bool CheckIfAllDateSet()
@@ -92,6 +95,23 @@ namespace HaushaltsManager
             }
         }
 
+        private string SaveInBelegFolder(string path)
+        {
+            string fileName = path.Split(@"\").Last();
+            string newPath = @$"{_path}\Haushaltsmanager\Belege";
+            if (!Directory.Exists(newPath))
+            {
+                Directory.CreateDirectory(newPath);
+            }
+            string date = DateTime.Now.ToString().Replace("-", "_").Replace(":", "_").Replace(".", "_").Replace(" ", "_");
+            string newPathWithFile = $@"{newPath}\{date}_{fileName}";
+            if (!File.Exists(newPathWithFile))
+            {
+                return newPathWithFile;
+            }
+            return string.Empty;
+        }
+
         private void BelegCancel_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
@@ -99,7 +119,15 @@ namespace HaushaltsManager
 
         private void BelegUpdate_Click(object sender, RoutedEventArgs e)
         {
-            _rep.DoNonQueryCommand(SQLStatementProvider.UpdateBelege());
+            string betrag = $"{Euro.Text}.{Cent.Text}";
+            int rowsChanged = _rep.DoNonQueryCommand(
+                SQLStatementProvider.UpdateBelege(_fromDB.Id,_fromDB.Jahr, BelegName.Text, BelegBeschreibung.Text, BelegDatum.Text, KategoriePicker.Text, betrag, TextImagePfad.Text, PersonPicker.Text));
+            if(rowsChanged == 1 && _fromDB.Speicherpfad.Equals(TextImagePfad.Text) is false)
+            {
+                File.Delete(_fromDB.Speicherpfad);
+                string saveDirectoryPath = SaveInBelegFolder(TextImagePfad.Text);
+                File.Copy(TextImagePfad.Text, saveDirectoryPath, false);
+            }
         }
     }
 }
