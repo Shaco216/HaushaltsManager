@@ -91,5 +91,15 @@ namespace HaushaltsManager
                 ToInsert.Speicherpfad = fileName;
             }
         }
+
+        private void BelegCancel_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void BelegUpdate_Click(object sender, RoutedEventArgs e)
+        {
+            _rep.DoNonQueryCommand(SQLStatementProvider.UpdateBelege());
+        }
     }
 }
