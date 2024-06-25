@@ -122,10 +122,9 @@ namespace HaushaltsManager
                 if (selectedBeleg is not null)
                 {
                     BelegImage.Source = null;
-                    UpdateBeleg updateBeleg = new(selectedBeleg, rep);
-                    updateBeleg.Show();
+                    UpdateBeleg updateBeleg = new(selectedBeleg, rep,this);
+                    updateBeleg.ShowDialog();
                 }
-                LoadBeleg();
             }
         }
 

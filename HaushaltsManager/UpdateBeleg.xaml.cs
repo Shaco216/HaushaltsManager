@@ -17,7 +17,7 @@ namespace HaushaltsManager
         private readonly BasicRepository _rep;
         private readonly string _jahr;
         private readonly int _highestbelegId;
-        private readonly MainWindow mainWindow;
+        private readonly MainWindow _mainWindow;
         static private string _path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
         private Beleg _fromDB;
 
@@ -37,15 +37,23 @@ namespace HaushaltsManager
             set { _insertEnabled = value; }
         }
 
-        public UpdateBeleg(Beleg beleg, BasicRepository rep)
+        public UpdateBeleg(Beleg beleg, BasicRepository rep, MainWindow mainWindow)
         {
             InitializeComponent();
             ToInsert = new();
             _rep = rep;
+            this._mainWindow = mainWindow;
             BelegName.Text = beleg.Name;
             BelegBeschreibung.Text = beleg.Beschreibung;
             Euro.Text = beleg.Betrag.Split('.').First();
-            Cent.Text = beleg.Betrag.Split('.').Last();
+            if (beleg.Betrag.Contains("."))
+            {
+                Cent.Text = beleg.Betrag.Split('.').Last();
+            }
+            else 
+            {
+                Cent.Text = string.Empty;
+            }
             Datum.Text = beleg.Datum.ToString();
             KategoriePicker.ItemsSource = rep.DoQueryCommand<Kategorie>(SQLStatementProvider.GatherKategories);
             PersonPicker.ItemsSource = rep.DoQueryCommand<Person>(SQLStatementProvider.GatherPerson);
@@ -129,6 +137,8 @@ namespace HaushaltsManager
             {
                 return;
             }
+            _mainWindow.LoadBeleg();
+            this.Close();
         }
     }
 }
