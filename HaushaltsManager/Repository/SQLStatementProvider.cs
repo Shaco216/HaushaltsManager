@@ -67,7 +67,7 @@ public static class SQLStatementProvider
         Datum = '{datum}',
         KategorieId = '{kategorieId}',
         Betrag = '{betrag}',
-        Speicherpfad = '{speicherpfad}'
+        Speicherpfad = '{speicherpfad}',
         PersonId = '{personId}'
         Where Id = '{id}';";
         return updatesql;

@@ -51,7 +51,7 @@
                     <DataGrid Grid.Column="1" x:Name="ClickedYear" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" SelectionChanged="ClickedYear_SelectionChanged">
                         <DataGrid.Columns>
                             <DataGridTextColumn x:Name="BetragColumn" Header="Betrag" Binding="{Binding Betrag}"/>
-                            <DataGridTextColumn x:Name="DatumColumn" Header="Datum" Binding="{Binding Datum}"/>
+                            <DataGridTextColumn x:Name="DatumColumn" Header="Datum" Binding="{Binding Datum, StringFormat=dd_MM_yyyy}"/>
                             <DataGridTextColumn x:Name="KategorieColumn" Header="Kategorie" Binding="{Binding Kategorie}"/>
                             <DataGridTextColumn x:Name="BeschreibungColumn" Header="Beschreibung" Binding="{Binding Beschreibung}"/>
                             <DataGridTextColumn x:Name="PersonColumn" Header="Person" Binding="{Binding Person}"/>

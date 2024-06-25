@@ -5,6 +5,8 @@ using HaushaltsManager.DBCreator;
 using HaushaltsManager.Model;
 using System.Drawing;
 using System.Windows.Media.Imaging;
+using System.IO;
+using HaushaltsManager.FunctionalClasses;
 
 namespace HaushaltsManager
 {
@@ -119,6 +121,7 @@ namespace HaushaltsManager
                 //rep.DoNonQueryCommand(sqlcmd);
                 if (selectedBeleg is not null)
                 {
+                    BelegImage.Source = null;
                     UpdateBeleg updateBeleg = new(selectedBeleg, rep);
                     updateBeleg.Show();
                 }
@@ -186,7 +189,8 @@ namespace HaushaltsManager
                 Beleg b = (ClickedYear.SelectedItem as Beleg)!;
                 if (b.Speicherpfad is not null)
                 {
-                    BelegImage.Source = new BitmapImage(new Uri(b.Speicherpfad));
+                    BelegImage.Source = ImageLoader.LoadBitmapImage(b.Speicherpfad);
+                    //BelegImage.Source = new BitmapImage(new Uri(b.Speicherpfad));
                 }
             }
         }

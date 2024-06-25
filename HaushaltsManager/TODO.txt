@@ -1,1 +1,1 @@
-﻿PersonID und KategorieId bei updatebeleg ändern oder updatebelegübersicht bauen
+﻿updategui verwalten

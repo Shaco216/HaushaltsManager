@@ -1,21 +1,11 @@
-﻿using HaushaltsManager.Model;
+﻿using HaushaltsManager.FunctionalClasses;
+using HaushaltsManager.Model;
 using HaushaltsManager.Repository;
 using Microsoft.Win32;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace HaushaltsManager
 {
@@ -25,7 +15,6 @@ namespace HaushaltsManager
     public partial class UpdateBeleg : Window
     {
         private readonly BasicRepository _rep;
-
         private readonly string _jahr;
         private readonly int _highestbelegId;
         private readonly MainWindow mainWindow;
@@ -51,6 +40,7 @@ namespace HaushaltsManager
         public UpdateBeleg(Beleg beleg, BasicRepository rep)
         {
             InitializeComponent();
+            ToInsert = new();
             _rep = rep;
             BelegName.Text = beleg.Name;
             BelegBeschreibung.Text = beleg.Beschreibung;
@@ -61,8 +51,9 @@ namespace HaushaltsManager
             PersonPicker.ItemsSource = rep.DoQueryCommand<Person>(SQLStatementProvider.GatherPerson);
 
             KategoriePicker.SelectedItem = ((IEnumerable<Kategorie>)KategoriePicker.ItemsSource).FirstOrDefault(x => x.Id == beleg.KategorieId);
-            PersonPicker.SelectedItem = ((IEnumerable<Person>)PersonPicker.ItemsSource).FirstOrDefault(x=>x.Id == beleg.PersonId);
-
+            PersonPicker.SelectedItem = ((IEnumerable<Person>)PersonPicker.ItemsSource).FirstOrDefault(x => x.Id == beleg.PersonId);
+            BelegImageVorher.Source = ImageLoader.LoadBitmapImage(beleg.Speicherpfad);
+            //BelegImageVorher.Source = new BitmapImage(new Uri(beleg.Speicherpfad));
             TextImagePfad.Text = beleg.Speicherpfad;
             _fromDB = beleg;
         }
@@ -91,6 +82,8 @@ namespace HaushaltsManager
             string fileName = openFileDialog.FileName;
             if (haveFileName is true)
             {
+                BelegImageNeu.Source = ImageLoader.LoadBitmapImage(fileName);
+                //BelegImageNeu.Source = new BitmapImage(new Uri(fileName));
                 fileName = openFileDialog.FileName;
                 TextImagePfad.Text = fileName;
                 ToInsert.Speicherpfad = fileName;
@@ -122,15 +115,17 @@ namespace HaushaltsManager
         private void BelegUpdate_Click(object sender, RoutedEventArgs e)
         {
             string betrag = $"{Euro.Text}.{Cent.Text}";
+            BelegImageVorher.Source = null;
             int rowsChanged = _rep.DoNonQueryCommand(
-                SQLStatementProvider.UpdateBelege(_fromDB.Id,_fromDB.Jahr, BelegName.Text, BelegBeschreibung.Text, Datum.Text, ((Kategorie)KategoriePicker.SelectedItem).Id, betrag, TextImagePfad.Text, ((Person)PersonPicker.SelectedItem).Id));
-            if(rowsChanged == 1 && _fromDB.Speicherpfad!.Equals(TextImagePfad.Text) is false)
+                SQLStatementProvider.UpdateBelege(_fromDB.Id, _fromDB.Jahr, BelegName.Text, BelegBeschreibung.Text, Datum.Text, ((Kategorie)KategoriePicker.SelectedItem).Id, betrag, TextImagePfad.Text, ((Person)PersonPicker.SelectedItem).Id));
+            if (rowsChanged == 1 && _fromDB.Speicherpfad!.Equals(TextImagePfad.Text) is false)
             {
+                BelegImageNeu.Source = null;
                 File.Delete(_fromDB.Speicherpfad);
                 string saveDirectoryPath = SaveInBelegFolder(TextImagePfad.Text);
                 File.Copy(TextImagePfad.Text, saveDirectoryPath, false);
             }
-            if(rowsChanged == 0)
+            if (rowsChanged == 0)
             {
                 return;
             }

@@ -1,21 +1,9 @@
 ﻿using HaushaltsManager.Model;
 using HaushaltsManager.Repository;
 using Microsoft.Win32;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace HaushaltsManager
 {
@@ -85,13 +73,14 @@ namespace HaushaltsManager
             ToInsert.Name = BelegName.Text;
             ToInsert.Beschreibung = BelegBeschreibung.Text;
             ToInsert.KategorieId = ((Kategorie)KategoriePicker.SelectedItem).Id;
-            ToInsert.Datum = ((DateTime)Datum.SelectedDate!).ToString();
+            ToInsert.Datum = ((DateTime)Datum.SelectedDate!).ToShortDateString().ToString();
             ToInsert.Betrag = $"{Euro.Text}.{Cent.Text}";
             ToInsert.PersonId = ((Person)PersonPicker.SelectedItem).Id;
             //ToInsert.Speicherpfad = TextImagePfad.Text;
             ToInsert.Speicherpfad = SaveInBelegFolder(TextImagePfad.Text);
             if (ToInsert.Speicherpfad != string.Empty)
             {
+
                 //string sql = SQLStatementProvider.InsertBelege(ToInsert.Id, ToInsert.Jahr, ToInsert.Name, ToInsert.Beschreibung, ToInsert.Datum, ToInsert.KategorieId, ToInsert.Betrag, ToInsert.Speicherpfad, ToInsert.PersonId);
                 string sql1 = SQLStatementProvider.InsertBeleg
                     .Replace("@Id", ToInsert.Id.ToString())
