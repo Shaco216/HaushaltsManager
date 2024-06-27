@@ -1,1 +1,1 @@
-﻿updategui verwalten
+﻿Auswertung einfügen

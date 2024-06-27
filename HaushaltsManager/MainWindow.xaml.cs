@@ -189,9 +189,13 @@ namespace HaushaltsManager
                 if (b.Speicherpfad is not null)
                 {
                     BelegImage.Source = ImageLoader.LoadBitmapImage(b.Speicherpfad);
-                    //BelegImage.Source = new BitmapImage(new Uri(b.Speicherpfad));
                 }
             }
+        }
+
+        private void _Auswertung_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

@@ -59,9 +59,7 @@ namespace HaushaltsManager
             string newPathWithFile = $@"{newPath}\{date}_{fileName}";
             if (!File.Exists(newPathWithFile))
             {
-                //File.Create(newPathWithFile).Dispose();
                 return newPathWithFile;
-                //Messenger.Send(new SetupDatabaseMessage());
             }
             return string.Empty;
         }
@@ -76,12 +74,10 @@ namespace HaushaltsManager
             ToInsert.Datum = ((DateTime)Datum.SelectedDate!).ToShortDateString().ToString();
             ToInsert.Betrag = $"{Euro.Text}.{Cent.Text}";
             ToInsert.PersonId = ((Person)PersonPicker.SelectedItem).Id;
-            //ToInsert.Speicherpfad = TextImagePfad.Text;
             ToInsert.Speicherpfad = SaveInBelegFolder(TextImagePfad.Text);
             if (ToInsert.Speicherpfad != string.Empty)
             {
 
-                //string sql = SQLStatementProvider.InsertBelege(ToInsert.Id, ToInsert.Jahr, ToInsert.Name, ToInsert.Beschreibung, ToInsert.Datum, ToInsert.KategorieId, ToInsert.Betrag, ToInsert.Speicherpfad, ToInsert.PersonId);
                 string sql1 = SQLStatementProvider.InsertBeleg
                     .Replace("@Id", ToInsert.Id.ToString())
                     .Replace("@Jahr", ToInsert.Jahr.ToString())
