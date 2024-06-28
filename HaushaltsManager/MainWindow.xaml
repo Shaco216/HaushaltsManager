@@ -10,9 +10,9 @@
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File"></MenuItem>
             <MenuItem Header="_Open">
-                <MenuItem Header="_KategorieOptions" Click="_KategorieOptions_Click"></MenuItem>
-                <MenuItem Header="_PersonOptions" Click="_PersonOptions_Click"></MenuItem>
-                <MenuItem Header="_Auswertung" Click="_Auswertung_Click"></MenuItem>
+                <MenuItem Header="_Kategorien" Click="_KategorieOptions_Click"></MenuItem>
+                <MenuItem Header="_Personen" Click="_PersonOptions_Click"></MenuItem>
+                <MenuItem Header="_Auswertungen" Click="_Auswertung_Click"></MenuItem>
             </MenuItem>
         </Menu>
         <Grid>

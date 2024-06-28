@@ -7,7 +7,7 @@ namespace HaushaltsManager.Auswertungen
     /// <summary>
     /// Interaktionslogik für EinkommenOptionen.xaml
     /// </summary>
-    public partial class EinkommenOptionen : Window
+    public partial class AuswertungOptionen : Window
     {
         private readonly BasicRepository _rep;
         private List<Year> _years;
@@ -15,16 +15,27 @@ namespace HaushaltsManager.Auswertungen
         private List<Kategorie> _kategories;
         private DateTime _datumVon;
         private DateTime _datumBis;
-        public EinkommenOptionen(BasicRepository rep)
+        public AuswertungOptionen(BasicRepository rep)
         {
             InitializeComponent();
             Years = new List<Year>();
+            Persons = new List<Person>();
+            Kategories = new List<Kategorie>();
+            _rep = rep;
             AddToLists();
-            JahrAuswahl.ItemsSource = rep.DoQueryCommand<Year>(SQLStatementProvider.GatherYears).ToList().Add();
-            JahrAuswahl.ItemsSource.
-
-_rep = rep;
+            JahrAuswahl.ItemsSource = Years;
+            PersonAuswahl.ItemsSource = Persons;
+            KategorieAuswahl.ItemsSource = Kategories;
+            SelectFirstItems();
         }
+
+        private void SelectFirstItems()
+        {
+            JahrAuswahl.SelectedItem = Years[0];
+            PersonAuswahl.SelectedItem = Persons[0];
+            KategorieAuswahl.SelectedItem = Kategories[0];
+        }
+
         public List<Year> Years
         {
             get { return _years; }
@@ -57,8 +68,15 @@ _rep = rep;
 
         private void AddToLists()
         {
-            Years.Add(new Year() { Jahr = 0});
-            Years = _rep.DoQueryCommand<Year>(SQLStatementProvider.GatherYears).ToList();
+            Years.Add(new Year() { Jahr = 0 }); //none
+            Years.AddRange(_rep.DoQueryCommand<Year>(SQLStatementProvider.GatherYears));
+            Years.Add(new Year { Jahr = 99999 }); //all
+            Persons.Add(new Person() { Vorname = "none" });
+            Persons.AddRange(_rep.DoQueryCommand<Person>(SQLStatementProvider.GatherPerson));
+            Persons.Add(new Person() { Vorname = "all" });
+            Kategories.Add(new Kategorie() { Name = "none" });
+            Kategories.AddRange(_rep.DoQueryCommand<Kategorie>(SQLStatementProvider.GatherKategories));
+            Kategories.Add(new Kategorie() { Name = "all" });
         }
     }
 }

@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Windows.Media.Imaging;
 using System.IO;
 using HaushaltsManager.FunctionalClasses;
+using HaushaltsManager.Auswertungen;
 
 namespace HaushaltsManager
 {
@@ -195,7 +196,8 @@ namespace HaushaltsManager
 
         private void _Auswertung_Click(object sender, RoutedEventArgs e)
         {
-
+            AuswertungOptionen auswertungOptionen = new AuswertungOptionen(rep);
+            auswertungOptionen.Show();
         }
     }
 }
