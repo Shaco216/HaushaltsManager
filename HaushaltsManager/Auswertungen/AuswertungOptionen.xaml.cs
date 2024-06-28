@@ -27,6 +27,7 @@ namespace HaushaltsManager.Auswertungen
             PersonAuswahl.ItemsSource = Persons;
             KategorieAuswahl.ItemsSource = Kategories;
             SelectFirstItems();
+            
         }
 
         private void SelectFirstItems()
@@ -77,6 +78,11 @@ namespace HaushaltsManager.Auswertungen
             Kategories.Add(new Kategorie() { Name = "none" });
             Kategories.AddRange(_rep.DoQueryCommand<Kategorie>(SQLStatementProvider.GatherKategories));
             Kategories.Add(new Kategorie() { Name = "all" });
+        }
+
+        private void OnSelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+
         }
     }
 }

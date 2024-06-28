@@ -30,11 +30,11 @@
                         <ColumnDefinition/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <ComboBox x:Name="JahrAuswahl" Grid.Column="0" Grid.Row="1" DisplayMemberPath="Jahr"/>
-                    <ComboBox x:Name="PersonAuswahl" Grid.Column="1" Grid.Row="1" DisplayMemberPath="FullName"/>
-                    <ComboBox x:Name="KategorieAuswahl" Grid.Column="2" Grid.Row="1" DisplayMemberPath="Name"/>
-                    <DatePicker x:Name="DatumVonAuswahl" Grid.Column="3" Grid.Row="1"/>
-                    <DatePicker x:Name="DatumBisAuswahl" Grid.Column="4" Grid.Row="1"/>
+                    <ComboBox x:Name="JahrAuswahl" Grid.Column="0" Grid.Row="1" DisplayMemberPath="Jahr" SelectionChanged="OnSelectionChanged"/>
+                    <ComboBox x:Name="PersonAuswahl" Grid.Column="1" Grid.Row="1" DisplayMemberPath="FullName" SelectionChanged="OnSelectionChanged"/>
+                    <ComboBox x:Name="KategorieAuswahl" Grid.Column="2" Grid.Row="1" DisplayMemberPath="Name" SelectionChanged="OnSelectionChanged"/>
+                    <DatePicker x:Name="DatumVonAuswahl" Grid.Column="3" Grid.Row="1" SelectedDateChanged="OnSelectionChanged"/>
+                    <DatePicker x:Name="DatumBisAuswahl" Grid.Column="4" Grid.Row="1" SelectedDateChanged="OnSelectionChanged"/>
                     <Label Content="Jahr" Grid.Row="0" Grid.Column="0"/>
                     <Label Content="Person" Grid.Row="0" Grid.Column="1"/>
                     <Label Content="Kategorie" Grid.Row="0" Grid.Column="2"/>
